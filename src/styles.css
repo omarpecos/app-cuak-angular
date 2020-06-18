@@ -1,1 +1,180 @@
-/* You can add global styles to this file, and also import other style files */
+
+*{
+    margin: 0;
+}
+
+.container{
+    margin-top: 30px;
+}
+
+.sidebar-content{
+    width: 100%;
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cuak-content{
+    padding: 5px;
+}
+
+/* title */
+.title{
+    height: 100px;
+    padding: 15px;
+    font-size: 4vw;
+    background: black;
+    color : white;
+    position: absolute;
+    bottom : 0;
+
+    animation: linear 2s animGiro;
+}
+
+@keyframes animGiro{
+    0% {
+            transform: rotateY(0deg) scale(0.6);
+            scale: 0.6;
+    }
+    100% {
+        transform: rotateY(360deg) scale(1);
+    }
+}
+
+.cuak-one, .cuak-list{
+    padding: 10px;
+}
+
+.info{
+    width: 100%;
+    height: 20%;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.favs{
+    width: 50%;
+    background-color: rgb(50, 238, 225);
+
+}
+.fav{
+    width: 25%;
+    background-color: khaki;
+}
+.reply{
+    width: 25%;
+    background-color: red;
+}
+.favs, .fav, .reply{
+    height: 100%;
+}
+
+
+/* Imagenes */
+.img-wrap{
+    width: 100%;
+    max-height: 260px;
+    height: fit-content;
+    overflow: hidden;
+}
+
+.img-wrap-list{
+    width: 100%;
+    max-height: 400px;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+
+    position: relative;
+}
+
+.img-wrap img, .img-wrap-list img{
+    width: 100%;
+    z-index: 0;
+}
+
+footer{
+    text-align: center;
+    margin-top: 20px;
+    height: 65px;
+    padding: 20px;
+    width: 100%;
+    background-color: lightgray;
+    color: white;
+    font-size: 1.5vw;
+}
+
+/* -- Medias Queries -- */
+
+@media(min-width : 576px){
+    /*.cuak-content{
+        margin-top: 30%;
+    }*/
+}
+
+
+@media (min-width: 992px){
+    .cuak-content{
+        margin-top: 0;
+    }
+
+    .img-wrap {/*mxheighttocado*/
+        max-height: 200px;
+        width: 100%;
+    }
+    .img-wrap img{
+        width: 100%;
+    }
+    .img-wrap-list{
+        max-height: 200px;
+    }
+    .img-wrap-list img {
+        width: 40%;
+    }
+
+   /* .img-wrap-list img:hover{
+        position: relative;
+        bottom: 0;
+        z-index: 999;
+        transform: scale(2);
+    }*/
+
+    .title{
+        padding-right: 35%;
+        font-size: 1vw;
+        width: 60%;
+        height: 100%;
+        left: 40%;
+        margin: 0;
+        
+    }
+
+    .info{
+        max-width: 200px;
+        height:100% ;
+        right: 0;
+    }
+    .favs{
+        width: 100%;
+        height: 40%;
+    }
+    .fav, .reply{
+        width: 50%;
+        height: 60%;
+    }
+}
+
