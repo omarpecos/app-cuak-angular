@@ -3,8 +3,14 @@
     margin: 0;
 }
 
+body , html{
+   /* height: 100%;*/
+    height: calc(100vh - 14vh);
+}
+
 .container{
-    margin-top: 30px;
+    margin: 10px auto;
+    min-height: calc(100vh - 27vh);
 }
 
 .sidebar-content{
@@ -110,12 +116,28 @@
 footer{
     text-align: center;
     margin-top: 20px;
-    height: 65px;
+    height: 10vh;
     padding: 20px;
     width: 100%;
     background-color: lightgray;
     color: white;
     font-size: 1.5vw;
+}
+
+/* Forms */
+#formLogin, #formRegister {
+    border-radius: 10px;
+    color : white;
+    padding: 10px;
+    background: #aa4465;
+    
+    margin: 20px auto;
+}
+
+.flex-center{
+    display: flex;
+   /* flex-flow: column wrap;*/
+    align-items: center;
 }
 
 /* -- Medias Queries -- */
