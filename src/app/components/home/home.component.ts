@@ -1,8 +1,16 @@
 import { Component, OnInit,DoCheck } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+//import gql from 'graphql-tag';
 
 import { UserService } from '../../services/user.service';
+import { AllCuaks, Cuak } from '../../services/cuak.service';
+
+export interface pagination {
+  hasPrevious : Boolean,
+  previous : String,
+  hasNext : Boolean,
+  next : String
+}
 
 @Component({
   selector: 'app-home',
@@ -14,15 +22,20 @@ export class HomeComponent implements OnInit,DoCheck {
   public identity = null;
   public token = null;
 
-  allCuaks: any[];
+ // cuaks$ : Observable<any>;
+
+  Cuaks: Cuak[];
   loading = true;
   error: any;
 
+  page : number = 1;
+  pagination : pagination;
+
   constructor(
       private apollo: Apollo,
+      //private allCuaks : AllCuaks,
       private userService : UserService
     ) {
-    //this.identity="algo";
   }
 
   getAuthUser(){
@@ -36,8 +49,9 @@ export class HomeComponent implements OnInit,DoCheck {
   ngOnInit() {
     
     this.getAuthUser();
-    
-    this.apollo
+    this.getAllCuaks({});
+     
+    /* this.apollo
       .watchQuery({
         query: gql`
           {
@@ -60,42 +74,55 @@ export class HomeComponent implements OnInit,DoCheck {
 
         this.loading = result.loading;
         this.error = result.errors;
-      });
+      }); */
   }
 
-   /* Amplia la imagen si haces un hover a la img o si sales vuelve a la normalidad */
-   zoomImg(target,type) {
+  getAllCuaks(paginate){
+       // console.log(paginate);
+    let allCuaksGql = new AllCuaks().document;
 
-    let img = target as HTMLImageElement;
-    let imgWrap = img.parentNode as HTMLDivElement;
-
-    if (type == 'enter') {
-      imgWrap.style.overflow = 'visible';
-
-      img.style.transform = 'scale(1.75)';
-      img.style.border = '1.7px lightgrey solid';
-      img.style.position = 'relative';
-      img.style.bottom = '0';
-      img.style.zIndex = '1';
-
-      if (window.screen.availWidth < 992) {
-        img.style.width = '60vw';
-        img.style.margin = '0 auto';
+    this.apollo
+    .watchQuery({
+      query: allCuaksGql,
+      variables: {
+        paginate
+      },
+    })
+    .valueChanges
+    .subscribe(result => {
+      let DATA = result.data['allCuaks'];
+      if (DATA){
+        this.pagination = {
+          hasNext : DATA['hasNext'],
+          next : DATA['next'],
+          hasPrevious : DATA['hasPrevious'],
+          previous : DATA['previous']
+        }
       }
-    } else if (type == 'leave') {
-      imgWrap.style.overflow = 'hidden';
 
-      img.style.transform = 'scale(1)';
-      img.style.border = 'none';
-      img.style.position = 'inherit';
-      img.style.bottom = 'inherit';
-      img.style.zIndex = '0';
+        this.Cuaks = DATA.results;
+        this.loading = result.loading;
+        this.error = result.errors;
+    });
+  }
 
-      if (window.screen.availWidth < 992) {
-        img.style.width = '100%';
-        img.style.margin = '0';
-      }
-      
+  navigateToPage(type){
+    if (type == 'previous'){
+      this.page--;
+
+      //loadCuaks
+      this.getAllCuaks({
+        previous : this.pagination.previous
+      });
+
+    }else{
+      this.page++;
+
+       //loadCuaks
+       this.getAllCuaks({
+        next : this.pagination.next
+      });
+     
     }
   }
 

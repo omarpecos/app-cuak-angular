@@ -1,0 +1,14 @@
+
+
+<aside class="sidebar" >
+    <div class="sidebar-content">
+        <h5 style="text-align: center;">Buscador</h5>
+        <div id="buscador">
+          <form (submit)="onSubmitSearch()">
+            <input type="text" class="form-control" name="searchString" [(ngModel)]="searchString">
+            <button type="submit" [disabled]="!searchString" class="btn btn-success">Buscar</button>
+          </form>
+        </div>
+    </div>
+</aside>
+

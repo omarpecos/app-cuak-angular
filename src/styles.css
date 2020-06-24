@@ -8,21 +8,56 @@ body , html{
     height: calc(100vh - 14vh);
 }
 
+.navbar{
+    background: #e3f2fd !important;
+    color: white !important;
+    text-shadow: black 1px !important;
+}
+
+/* sobreescribir color nav-link */
+.nav-link{
+    color: white !important;
+    text-shadow: 1px 1px 2px black;
+}
+
 .container{
     margin: 10px auto;
     min-height: calc(100vh - 27vh);
 }
 
+.sidebar{
+    border-radius: 3px;
+    padding: 10px;
+}
+
 .sidebar-content{
-    width: 100%;
+    width: 80%;
     margin: 30px auto;
+    padding: 15px;
+    background: #e3f2fd;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .cuak-content{
     padding: 5px;
+    color : black;
+    font-weight: 700;
+}
+
+#content{
+    border-radius: 3px;
+    background: #462255;
+    color : white;
+}
+
+.cuak-one, .cuak-list{
+    border-radius: 3px;
+    padding: 10px;
+    background: #e3f2fd;
+    margin-bottom: 10px;
 }
 
 /* title */
@@ -48,9 +83,6 @@ body , html{
     }
 }
 
-.cuak-one, .cuak-list{
-    padding: 10px;
-}
 
 .info{
     width: 100%;
@@ -70,16 +102,16 @@ body , html{
 
 .favs{
     width: 50%;
-    background-color: rgb(50, 238, 225);
+    background-color: rgb(129, 236, 229);
 
 }
 .fav{
     width: 25%;
-    background-color: khaki;
+    background-color: rgb(238, 230, 156);
 }
 .reply{
     width: 25%;
-    background-color: red;
+    background: #aa4465;
 }
 .favs, .fav, .reply{
     height: 100%;
@@ -119,8 +151,9 @@ footer{
     height: 10vh;
     padding: 20px;
     width: 100%;
-    background-color: lightgray;
+    background: #e3f2fd;
     color: white;
+    text-shadow: 1px 1px 2px black;
     font-size: 1.5vw;
 }
 
@@ -138,6 +171,27 @@ footer{
     display: flex;
    /* flex-flow: column wrap;*/
     align-items: center;
+    justify-content: center;
+}
+
+#pagination{
+    padding : 10px;
+    width: 40%;
+    margin: 10px auto;
+    background: #aa4465;
+    border-radius: 3px;
+}
+
+.navegacion{
+    padding: 10px 15px;
+    border-radius: 50%;
+    background: plum;
+    cursor: pointer;
+}
+
+#buscador{
+    width: 100%;
+    padding: 5px;
 }
 
 /* -- Medias Queries -- */
@@ -146,6 +200,7 @@ footer{
     /*.cuak-content{
         margin-top: 30%;
     }*/
+   
 }
 
 
@@ -197,6 +252,10 @@ footer{
     .fav, .reply{
         width: 50%;
         height: 60%;
+    }
+
+    .sidebar-content{
+        margin: 0px auto;
     }
 }
 

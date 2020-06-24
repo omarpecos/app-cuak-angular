@@ -26,9 +26,8 @@
             <a class="nav-link" routerLink="/registro" >Registro</a>
           </li>
            <li *ngIf="identity" class="nav-item active">
-             @{{identity.username}}
-             &nbsp;
-             <span class="nav-link badge badge-warning" (click)="logout()">Salir</span>
+            <span class="nav-link badge badge-light">@{{identity.username}}</span>
+             <span class="nav-link badge badge-dark" (click)="logout()">Salir</span>
           
            <!-- <a class="nav-link" href="#">@{{identity.username}}</a>
             <a class="nav-link" href="#">Salir</a> -->

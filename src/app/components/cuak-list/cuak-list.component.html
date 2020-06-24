@@ -1,0 +1,30 @@
+
+
+<!-- Lista de Cuaks -->
+<div *ngIf="Cuaks" id="cuak-collection">
+
+    <div *ngIf="Cuaks.length == 0"> 
+        <h5 style="text-align: center;">No hay resultados</h5>
+    </div>
+
+    <article *ngFor="let cuak of Cuaks"  class="cuak-list" >
+        <div class="img-wrap-list" style="background: rgb(180, 186, 172);">
+        
+            <img *ngIf="cuak.image" :src="{{cuak.image}}" :alt="cuak.title" (mouseenter)="zoomImg($event.currentTarget,'enter')"  (mouseleave)="zoomImg($event.currentTarget,'leave')">
+            <img *ngIf="!cuak.image" src="https://drscdn.500px.org/photo/75964679/q%3D80_m%3D2000/v2?sig=8afbd38315427c08c0b783ca1d6d5bdb4c46d70034f158e66b4b2630b3a1e110" :alt="Default">
+            <div class="title">
+                <span>@{{cuak.author.username}}</span>
+                <h5>{{cuak.title}}</h5>
+            </div>
+            <div *ngIf="identity" class="info" style="background-color: indigo; text-align: center;">
+                <div class="favs">0 €</div>
+                <div class="reply">RES()</div>
+                <div class="fav">  FAV()</div>
+            </div>
+        </div>
+        
+        <div class="cuak-content">
+            {{cuak.text}}
+        </div>
+    </article>
+</div>

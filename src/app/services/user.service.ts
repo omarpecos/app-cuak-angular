@@ -17,6 +17,9 @@ export class UserService{
     return JSON.parse(identity);
   }
 }
+
+/* Mutations de Usuario */
+
 @Injectable({
   providedIn: 'root'
 })

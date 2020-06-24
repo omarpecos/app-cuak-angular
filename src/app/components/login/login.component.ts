@@ -35,8 +35,7 @@ export class LoginComponent implements OnInit {
       .mutate(
         this.userData
       )
-      .subscribe()
-      /*.subscribe(
+      .subscribe(
         res =>{    
           
             let data = res.data['login'];
@@ -53,7 +52,7 @@ export class LoginComponent implements OnInit {
           console.log(error);
           this.errors.push(error.message);
         }
-      );*/
+      );
   }
 
   onSubmit(){

@@ -12,6 +12,9 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { appHeaderComponent } from './components/appHeader/appHeader.component';
 import { RegisterComponent } from './components/register/register.component';
+import { CuakListComponent } from './components/cuak-list/cuak-list.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { RegisterComponent } from './components/register/register.component';
     LoginComponent,
     HomeComponent,
     appHeaderComponent,
-    RegisterComponent
+    RegisterComponent,
+    CuakListComponent,
+    SidebarComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

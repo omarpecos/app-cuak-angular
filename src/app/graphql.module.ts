@@ -6,6 +6,7 @@ import {InMemoryCache} from 'apollo-cache-inmemory';
 const uri = 'http://localhost:4000/graphql'; // <-- add the URL of the GraphQL server here
 export function createApollo(httpLink: HttpLink) {
   return {
+    connectToDevTools: true, 
     link: httpLink.create({uri}),
     cache: new InMemoryCache(),
   };

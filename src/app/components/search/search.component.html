@@ -1,19 +1,20 @@
-
 <!-- Header -->
 <appHeader
     [identity]="identity"
 ></appHeader>
 
 
-<h2 style="text-align: center;">Inicio</h2>
+<h2 style="text-align: center;">Búsqueda</h2>
+<h3 style="text-align: center;color: grey">{{search}}</h3>
 
 
 
 <div  class="container">
   <div class="row">
       <section  id="content" class="col-sm-12 col-lg-8">
-          
-      <h3 style="text-align: center;" >Lista de Cuaks</h3>
+
+      <small style="text-align: center;color: grey" *ngIf="Cuaks">Núm : {{Cuaks.length}}</small>
+      <h3 style="text-align: center;" >Resultados</h3>
 
       <div style="text-align: center;" *ngIf="loading">
         <h4>Loading ...</h4>
@@ -31,15 +32,6 @@
       >
 
       </cuak-list>
-
-    <!-- Pagination -->
-    <div *ngIf="pagination" id="pagination" class="flex-center">
-      <span *ngIf="pagination.hasPrevious" (click)="navigateToPage('previous')" class="navegacion nav-izq"><</span>
-      <span style="padding: 10px;">
-        {{page}}
-      </span>
-      <span *ngIf="pagination.hasNext" (click)="navigateToPage('next')"  class="navegacion nav-izq" >></span>
-    </div>
 
   </section>
 
