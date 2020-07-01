@@ -5,6 +5,8 @@ import { Apollo } from 'apollo-angular';
 import { UserService } from '../../services/user.service';
 import { AllCuaks, Cuak } from '../../services/cuak.service';
 
+import { environment } from '../../../environments/environment';
+
 export interface pagination {
   hasPrevious : Boolean,
   previous : String,
@@ -78,12 +80,10 @@ export class HomeComponent implements OnInit,DoCheck {
   }
 
   getAllCuaks(paginate){
-       // console.log(paginate);
-    let allCuaksGql = new AllCuaks().document;
 
     this.apollo
     .watchQuery({
-      query: allCuaksGql,
+      query: AllCuaks,
       variables: {
         paginate
       },
@@ -98,6 +98,8 @@ export class HomeComponent implements OnInit,DoCheck {
           hasPrevious : DATA['hasPrevious'],
           previous : DATA['previous']
         }
+        //set env
+        environment.lastPaginate = paginate;
       }
 
         this.Cuaks = DATA.results;

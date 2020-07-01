@@ -1,5 +1,9 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { Cuak } from '../../services/cuak.service';
+import { Cuak,DeleteCuak, AllCuaks } from '../../services/cuak.service';
+import { Apollo } from 'apollo-angular';
+
+import swal from 'sweetalert';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -12,7 +16,12 @@ export class CuakListComponent implements OnInit {
   @Input() Cuaks: Cuak[];
   @Input() identity;
 
-  constructor() { }
+  @Input() page;
+  @Input() pagination;
+
+  constructor(
+    private apollo : Apollo
+  ) { }
 
   ngOnInit(): void {
   }
@@ -51,5 +60,81 @@ export class CuakListComponent implements OnInit {
       }
       
     }
+  }
+
+  deleteCuak(cuak : Cuak){
+    swal({
+      title: "¿Está seguro?",
+      text: "Una vez eliminado el cuak no habrá marcha atrás",
+      icon: "warning",
+      buttons: ['Cancelar','Eliminar'],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        
+        //mutation - deleteCuak
+        this.apollo
+            .mutate({
+              mutation : DeleteCuak,
+              variables : { id : cuak._id},
+              optimisticResponse : {
+                  __typename : 'Mutation',
+                  deleteCuak : {
+                    __typename : 'Cuak',
+                    _id : cuak._id,
+                    title : cuak.title,
+                    author : {
+                      __typename : 'User',
+                      _id : this.identity._id,
+                      username : this.identity.username
+                    }
+                  }
+              },
+                // igual se puede hacer un refechtQueries pero puede aparecer algun cuak repetido 
+                //si has cargado la pagina y eliminas uno de la anterior
+               update : (proxy, { data : {deleteCuak}}) =>{
+                  const data = proxy.readQuery({
+                    query : AllCuaks,
+                    variables : {
+                      paginate : environment.lastPaginate
+                    }
+                  });
+                  
+                  var cuakArray = data['allCuaks']['results'].filter(c => c._id != cuak._id );
+                  data['allCuaks']['results'] = cuakArray;
+
+                  proxy.writeQuery({
+                    query : AllCuaks, 
+                    variables : {
+                    paginate : environment.lastPaginate
+                  },
+                  data : data});
+               }
+              /*refetchQueries : [{
+                query : AllCuaks,
+                variables : {
+                  paginate : environment.lastPaginate
+                }
+              }]*/
+            }).subscribe(
+              res =>{
+                if (res.errors){
+                  res.errors.map(e =>{
+                    console.log(e);
+                    swal("Error",e.message,"error");
+                  });
+                }
+              });
+
+        swal("El cuak con título '"+ cuak.title +"' se ha eliminado correctamente", {
+          icon: "success",
+        });
+      } else {
+        //nada
+          //test de environment.ts
+          console.log(environment.lastPaginate);
+      }
+    });
   }
 }

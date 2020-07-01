@@ -1,0 +1,68 @@
+<!-- Header -->
+<appHeader
+    [identity]="identity"
+></appHeader>
+
+
+<div  class="container">
+ 
+  <div class="row">
+      <section  id="content" class="col-sm-12 col-lg-8">
+
+        <h2 style="text-align: center;">Editar</h2>
+        <p  *ngIf="!cuak" style="text-align: center;">
+            <img  src="assets/images/loading.gif" style="margin:5px auto;" alt="Loading">
+        </p>
+        
+        <div *ngIf="cuak" class="col-sm-10" id="formLogin">
+            <form  #createForm="ngForm" (submit)="onSubmit()">
+                <label for="title">Título*</label>
+                <input class="form-control" type="text"  name="title" #title="ngModel" [(ngModel)]="cuak.title" required/>
+                    <div *ngIf="!title.valid && title.touched"
+                    class="alert alert-danger">*El título es obligatorio</div>
+                <label for="image">Imagen*</label>
+                <select class="form-control" name="typeImg" [(ngModel)]="typeImg">
+                    <option value="url">Url Imagen</option>
+                    <option value="file">Subir Imagen</option>
+                </select>
+
+                <input *ngIf="typeImg == 'url'"  class="form-control" type="text"  name="image" [(ngModel)]="imgUrl"/>
+                <input  *ngIf="typeImg == 'file'" class="form-control" type="file" id="file0"  name="file0"  (change)="fileChange($event)" required />
+                <div *ngIf="!file0 && typeImg == 'file'"
+                class="alert alert-danger">*Debe subir una imagen</div>
+
+                <button *ngIf="typeImg == 'url'" type="button" class="btn btn-info" (click)="reloadImg()">Otra imagen</button>
+                <button *ngIf="typeImg == 'url' && imgUrl != imageOld" type="button" class="btn btn-success" (click)="resetImageOld()">Volver a original</button>
+                <!-- thumbnail -->
+               <!--  <p style="text-align: center;">-->
+                    <div class="img-wrap-list">
+                        <img *ngIf="loading" src="assets/images/loading.gif" style="margin:5px auto;" alt="Loading">
+                        <img id="createImg" style="margin:5px auto;" [src]="cuak.image" alt="Imagen Subida"
+                         (mouseenter)="zoomImg($event.currentTarget,'enter')"  (mouseleave)="zoomImg($event.currentTarget,'leave')" > 
+                    </div>
+               <!-- </p>-->
+               
+                <label for="title">Texto*</label>
+                <textarea rows="4" class="form-control" name="text" #text="ngModel" [(ngModel)]="cuak.text" required>
+                </textarea>
+                    <div *ngIf="!text.valid  && text.touched"
+                    class="alert alert-danger">*El contenido es obligatorio</div>
+
+                <button type="submit" class="btn btn-success" [disabled]="!createForm.valid">Editar</button>
+            </form>
+    </div>
+  </section>
+
+  <!-- Sidebar -->
+  <app-sidebar class="col-sm-12 col-lg-4" 
+    [identity]="identity"
+  >
+  </app-sidebar>
+
+ </div>
+</div>
+
+<!-- Loader de la Request! con Modal -->
+<div *ngIf="loadingReq" class="flex-center gif-fullscreen" >
+    <img src="assets/images/loading.gif" alt="Loading">
+  </div>

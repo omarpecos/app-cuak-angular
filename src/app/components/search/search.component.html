@@ -22,8 +22,8 @@
       </div>
       
       <div *ngIf="error">
-        <h4>Error! :( ...</h4>
-        <p>{{error}}</p>
+        <h4>! Algo ocurrió ! :(</h4>
+        <p *ngFor="let e of error">{{e.message}}</p>
       </div>
 
       <cuak-list *ngIf="Cuaks" 
@@ -36,7 +36,9 @@
   </section>
 
   <!-- Sidebar -->
-  <app-sidebar class="col-sm-12 col-lg-4">
+  <app-sidebar class="col-sm-12 col-lg-4"
+    [identity]="identity"
+  >
   </app-sidebar>
 
  </div>

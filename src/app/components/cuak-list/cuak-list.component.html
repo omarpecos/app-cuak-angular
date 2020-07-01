@@ -12,7 +12,7 @@
         
             <img *ngIf="cuak.image" :src="{{cuak.image}}" :alt="cuak.title" (mouseenter)="zoomImg($event.currentTarget,'enter')"  (mouseleave)="zoomImg($event.currentTarget,'leave')">
             <img *ngIf="!cuak.image" src="https://drscdn.500px.org/photo/75964679/q%3D80_m%3D2000/v2?sig=8afbd38315427c08c0b783ca1d6d5bdb4c46d70034f158e66b4b2630b3a1e110" :alt="Default">
-            <div class="title">
+            <div class="title" [routerLink]="'/detalle/' + cuak._id">
                 <span>@{{cuak.author.username}}</span>
                 <h5>{{cuak.title}}</h5>
             </div>
@@ -22,6 +22,14 @@
                 <div class="fav">  FAV()</div>
             </div>
         </div>
+
+        <!-- Botones de funciones (Edit/delete) -->
+        <p *ngIf="identity && (cuak.author._id == identity._id || identity.role == 1)">
+            <button class="btn btn-warning btn-sm" [routerLink]="'/editar/' + cuak._id" >Editar</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteCuak(cuak)" >Eliminar</button>
+        </p>
+
+        <small class="badge badge-info">{{cuak.date}}</small>
         
         <div class="cuak-content">
             {{cuak.text}}

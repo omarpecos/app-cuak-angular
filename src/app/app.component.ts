@@ -7,9 +7,10 @@ import { Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app-cuak';
+  year = 'xxxx';
 
   constructor(){
+    this.year = new Date().getFullYear().toString();
   }
  
 }

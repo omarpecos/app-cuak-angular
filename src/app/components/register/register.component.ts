@@ -54,15 +54,18 @@ export class RegisterComponent implements OnInit {
       )
       .subscribe(
         res =>{
-          console.log(res.data['register']);
-          //redirect to Login!
-          this._router.navigate(['/login']);
-        },
-        error =>{
-          console.log(error);
-          this.errors.push(error.message);
-        }
-      )
+          if (res.errors){
+            res.errors.map(e =>{
+              console.log(e);
+              this.errors.push(e.message);
+            });
+          }else{
+              // console.log(res.data['register']);
+            //redirect to Login!
+            this._router.navigate(['/login']);
+          }
+          
+        });
   }
 
 }

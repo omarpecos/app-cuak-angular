@@ -1,0 +1,74 @@
+
+<!-- Header -->
+<appHeader
+    [identity]="identity"
+></appHeader>
+
+
+<div  class="container">
+  <div class="row">
+      <section  id="content" class="col-sm-12 col-lg-8">
+                
+            <h3 style="text-align: center;" >Detalle</h3>
+        
+            <div style="text-align: center;" *ngIf="loading">
+            <h4>Loading ...</h4>
+            <img src="assets/images/loading.gif" alt="Loading">
+        </div>
+        
+        <div *ngIf="error">
+            <h4>Error! :( ...</h4>
+            <p *ngIf="let e of error">{{e.message}} - {{e.extensions.code}}</p>
+        </div>
+
+
+        <!-- Cuak Detail -->
+        <div *ngIf="cuak" id="cuak-collection">
+
+            <article class="cuak-one" >
+                <div class="img-wrap" style="background: rgb(180, 186, 172);">
+                    <img *ngIf="cuak.image" :src="{{cuak.image}}" :alt="cuak.title" (load)="centerImg($event)">
+                    <img *ngIf="!cuak.image" src="https://drscdn.500px.org/photo/75964679/q%3D80_m%3D2000/v2?sig=8afbd38315427c08c0b783ca1d6d5bdb4c46d70034f158e66b4b2630b3a1e110" :alt="Default">
+                </div>
+
+                <!-- Botones de funciones (Edit/delete) -->
+                <p *ngIf="identity && (cuak.author._id == identity._id || identity.role == 1)">
+                    <button class="btn btn-warning btn-sm" >Editar</button>
+                    <button class="btn btn-danger btn-sm" >Eliminar</button>
+                </p>
+
+                <div class="title-detalle">
+                    <span>@{{cuak.author.username}}</span>
+                    <h5>{{cuak.title}}</h5>
+                </div>
+
+                <small class="badge badge-info">{{cuak.date}}</small>
+                
+                <div class="cuak-content">
+                    {{cuak.text}}
+                </div>
+            </article>
+            <div *ngIf="identity" class="flex-center info-detalle" style="background-color: indigo; text-align: center; height: 50px;">
+                <div class="favs">
+                    <p>0 $</p>
+                    <small>A omarpv y 2 más les gusta</small>
+                </div>
+                <div class="reply">
+                    <button class="btn btn-sm btn-info">RES()</button>
+                </div>
+                <div class="fav"> 
+                    <button class="btn btn-sm btn-info">FAV()</button>
+                </div>
+            </div>
+        </div>
+
+</section>
+
+<!-- Sidebar -->
+<app-sidebar class="col-sm-12 col-lg-4"
+  [identity]="identity"
+>
+</app-sidebar>
+
+</div>
+</div>

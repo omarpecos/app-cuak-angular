@@ -5,29 +5,31 @@
 ></appHeader>
 
 
-<h2 style="text-align: center;">Inicio</h2>
-
-
-
 <div  class="container">
   <div class="row">
       <section  id="content" class="col-sm-12 col-lg-8">
           
       <h3 style="text-align: center;" >Lista de Cuaks</h3>
-
+      <p *ngIf="identity" style="text-align: center;">
+        <button class="btn btn-success" routerLink="/nuevo">+ Nuevo</button> 
+      </p>
+      
       <div style="text-align: center;" *ngIf="loading">
         <h4>Loading ...</h4>
         <img src="assets/images/loading.gif" alt="Loading">
       </div>
       
       <div *ngIf="error">
-        <h4>Error! :( ...</h4>
-        <p>{{error}}</p>
+        <h4>! Algo ocurrió ! :(</h4>
+        <p *ngFor="let e of error">{{e.message}}</p>
       </div>
 
       <cuak-list *ngIf="Cuaks" 
         [Cuaks]="Cuaks"
         [identity]="identity"
+
+        [page]="page"
+        [pagination]="pagination"
       >
 
       </cuak-list>
@@ -44,7 +46,9 @@
   </section>
 
   <!-- Sidebar -->
-  <app-sidebar class="col-sm-12 col-lg-4">
+  <app-sidebar class="col-sm-12 col-lg-4"
+    [identity]="identity"
+  >
   </app-sidebar>
 
  </div>

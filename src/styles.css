@@ -4,12 +4,12 @@
 }
 
 body , html{
-   /* height: 100%;*/
-    height: calc(100vh - 14vh);
+    height: 100%;
+   /* height: calc(100vh - 10vh); */
 }
 
 .navbar{
-    background: #e3f2fd !important;
+    background: #462255 !important;
     color: white !important;
     text-shadow: black 1px !important;
 }
@@ -22,7 +22,7 @@ body , html{
 
 .container{
     margin: 10px auto;
-    min-height: calc(100vh - 27vh);
+    min-height: calc(100vh - 20.8vh);
 }
 
 .sidebar{
@@ -102,16 +102,16 @@ body , html{
 
 .favs{
     width: 50%;
-    background-color: rgb(129, 236, 229);
+    background-color: rgba(129, 236, 229, 0.571);
 
 }
 .fav{
     width: 25%;
-    background-color: rgb(238, 230, 156);
+    background-color: rgba(238, 230, 156, 0.558);
 }
 .reply{
     width: 25%;
-    background: #aa4465;
+    background: #aa446490;
 }
 .favs, .fav, .reply{
     height: 100%;
@@ -146,12 +146,14 @@ body , html{
 }
 
 footer{
+    position: sticky;
+    bottom: 0;
     text-align: center;
-    margin-top: 20px;
-    height: 10vh;
-    padding: 20px;
+   
+    height: 7vh;
+    padding: 2.6vh;
     width: 100%;
-    background: #e3f2fd;
+    background: #462255;
     color: white;
     text-shadow: 1px 1px 2px black;
     font-size: 1.5vw;
@@ -194,6 +196,24 @@ footer{
     padding: 5px;
 }
 
+.gif-fullscreen{
+    background: blanchedalmond;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.info-detalle{
+    position: relative;
+    width: 100%;
+    height:70px;
+    right: 0;
+}
+.info-detalle > div{
+    height: 100% !important;
+}
+
 /* -- Medias Queries -- */
 
 @media(min-width : 576px){
@@ -210,7 +230,8 @@ footer{
     }
 
     .img-wrap {/*mxheighttocado*/
-        max-height: 200px;
+        height: 450px;
+        max-height: 450px;
         width: 100%;
     }
     .img-wrap img{
@@ -242,7 +263,7 @@ footer{
 
     .info{
         max-width: 200px;
-        height:100% ;
+        height:100%;
         right: 0;
     }
     .favs{

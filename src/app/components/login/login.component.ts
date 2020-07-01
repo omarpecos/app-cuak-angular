@@ -37,22 +37,24 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(
         res =>{    
-          
-            let data = res.data['login'];
-            //recoger token e identity - localStorage
-            let token = data.token;
-            localStorage.setItem('token', token);
-            let identity = data.user;
-            localStorage.setItem('identity',JSON.stringify(identity));
-             // y redireccionar hacia Home!
-            this._router.navigate(['']);
 
-        },
-        error =>{
-          console.log(error);
-          this.errors.push(error.message);
-        }
-      );
+            if (res.errors){
+              res.errors.map(e =>{
+                console.log(e);
+                this.errors.push(e.message);
+              });
+            }else{
+              let data = res.data['login'];
+              //recoger token e identity - localStorage
+              let token = data.token;
+              localStorage.setItem('token', token);
+              let identity = data.user;
+              localStorage.setItem('identity',JSON.stringify(identity));
+               // y redireccionar hacia Home!
+              this._router.navigate(['']);
+            }
+          
+        });
   }
 
   onSubmit(){

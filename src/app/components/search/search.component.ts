@@ -44,7 +44,7 @@ export class SearchComponent implements OnInit {
   }
 
   searchCuaks(){
-    let searchCuaksgql = new SearchCuaks().document;
+    let searchCuaksgql = SearchCuaks;
 
     this.apollo
       .watchQuery({
