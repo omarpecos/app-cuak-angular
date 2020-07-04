@@ -1,5 +1,5 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { Cuak,DeleteCuak, AllCuaks } from '../../services/cuak.service';
+import { Component, OnInit,Input, DoCheck} from '@angular/core';
+import { Cuak,DeleteCuak, AllCuaks, MarkAsFavorite ,UnmarkAsFavorite} from '../../services/cuak.service';
 import { Apollo } from 'apollo-angular';
 
 import swal from 'sweetalert';
@@ -11,10 +11,11 @@ import { environment } from '../../../environments/environment';
   templateUrl: './cuak-list.component.html',
   styleUrls: ['./cuak-list.component.css']
 })
-export class CuakListComponent implements OnInit {
+export class CuakListComponent implements OnInit,DoCheck{
 
   @Input() Cuaks: Cuak[];
   @Input() identity;
+
 
   @Input() page;
   @Input() pagination;
@@ -24,7 +25,25 @@ export class CuakListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+      this.setLikesText(this.Cuaks);
   }
+
+  ngDoCheck(){
+    // vuelve a cargar los textos de likes de todos 
+    // queria hacerlo sólo con uno pero no me va nosepoque :(
+    this.setLikesText(this.Cuaks);
+  }
+
+ /* ngOnChanges(changes : SimpleChanges){
+   
+    
+    if (changes.token){
+      if (changes.token.currentValue){
+        console.log(changes);
+        this.token = changes.token.currentValue;
+      }
+    }
+  }*/
 
    /* Amplia la imagen si haces un hover a la img o si sales vuelve a la normalidad */
    zoomImg(target,type) {
@@ -133,8 +152,152 @@ export class CuakListComponent implements OnInit {
       } else {
         //nada
           //test de environment.ts
-          console.log(environment.lastPaginate);
+          // console.log(environment.lastPaginate);
       }
     });
   }
+
+  //En cada cuak setea isFavorited : true o false
+  isMarkedAsFav(id,cuak,index){
+    var valorRetornado = false; 
+
+    cuak.favorites.map( fav =>{
+        if (fav.userId == id){
+          valorRetornado = true;
+        }
+    });
+
+   // console.log(valorRetornado);
+    
+      this.Cuaks[index].isFavorited = valorRetornado;
+  }
+
+  doFavorite(cuakId){
+    
+    this.apollo
+      .mutate({
+        mutation : MarkAsFavorite,
+        variables : {
+          cuakId : cuakId
+        },
+        optimisticResponse : {
+          __typename : 'Mutation',
+          markAsFavorite : {
+            __typename : 'Favorite',
+            userId : this.identity._id,
+            user : {
+              __typename : 'User',
+              username : this.identity.username
+            }
+          }
+      },
+        // igual se puede hacer un refechtQueries pero puede aparecer algun cuak repetido 
+        //si has cargado la pagina y eliminas uno de la anterior
+       update : (proxy, { data : {markAsFavorite}}) =>{
+          const data = proxy.readQuery({
+            query : AllCuaks,
+            variables : {
+              paginate : environment.lastPaginate
+            }
+          });
+
+          data['allCuaks']['results'].map(cuak =>{
+            if (cuak._id == cuakId){
+              cuak.favorites.push(markAsFavorite);
+              this.setLikesText( [cuak] );
+            }
+          });
+
+          proxy.writeQuery({
+            query : AllCuaks,
+            variables : {
+              paginate : environment.lastPaginate
+            },
+            data : data
+          });
+      }
+      }).subscribe(
+        res =>{
+          if (res.errors){
+            res.errors.map(e =>{
+              console.log(e);
+              swal("Error",e.message,"error");
+            });
+          }
+            //console.log(res);
+        });
+  }
+
+  undoFavorite(cuakId){
+
+    this.apollo
+    .mutate({
+      mutation : UnmarkAsFavorite,
+      variables : {
+        cuakId : cuakId
+      },
+      optimisticResponse : {
+        __typename : 'Mutation',
+        unmarkAsFavorite : {
+          __typename : 'Favorite',
+          userId : this.identity._id,
+          user : {
+            __typename : 'User',
+            username : this.identity.username
+          }
+        }
+    },
+      // igual se puede hacer un refechtQueries pero puede aparecer algun cuak repetido 
+      //si has cargado la pagina y eliminas uno de la anterior
+     update : (proxy, { data : {unmarkAsFavorite}}) =>{
+        const data = proxy.readQuery({
+          query : AllCuaks,
+          variables : {
+            paginate : environment.lastPaginate
+          }
+        });
+
+        data['allCuaks']['results'].map(cuak =>{
+          if (cuak._id == cuakId){
+             var auxArray =  cuak.favorites.filter(fav => fav.userId != this.identity._id);
+              ///console.log(auxArray);
+             cuak.favorites = auxArray;
+          }
+        });
+
+        proxy.writeQuery({
+          query : AllCuaks,
+          variables : {
+            paginate : environment.lastPaginate
+          },
+          data : data
+        });
+    }
+    }).subscribe(
+      res =>{
+        if (res.errors){
+          res.errors.map(e =>{
+            console.log(e);
+            swal("Error",e.message,"error");
+          });
+        }
+          //console.log(res);
+      }
+    )
+  }
+
+  setLikesText(arrayCuaks){
+    arrayCuaks.map(cuak =>{
+      let numFavs = cuak.favorites.length;
+      if (numFavs == 0){
+        cuak.likesText = 'No le gusta a nadie';
+      }else if (numFavs == 1){
+        cuak.likesText = 'A '+ cuak.favorites[0].user.username +' le gusta';
+      }else{
+        let randomNum = Math.floor(Math.random() * (cuak.favorites.length - 1 ));
+        cuak.likesText = 'A '+ cuak.favorites[randomNum].user.username +' y a '+ (cuak.favorites.length - 1 ) +' más les gusta';
+      }
+    });
+  }
+
 }

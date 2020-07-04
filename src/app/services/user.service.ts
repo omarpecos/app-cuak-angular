@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { Mutation } from 'apollo-angular';
 import gql from 'graphql-tag';
 
@@ -16,7 +17,18 @@ export class UserService{
     let identity = localStorage.getItem('identity');
     return JSON.parse(identity);
   }
+
 }
+
+/*export function getHeaders(token){
+  let headers = new HttpHeaders().set("Authorization", token); // adding header
+ var context =  { 
+    headers: headers
+ };
+console.log(context);
+
+ return context;
+}*/
 
 /* Mutations de Usuario */
 

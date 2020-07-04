@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('token', token);
               let identity = data.user;
               localStorage.setItem('identity',JSON.stringify(identity));
+
                // y redireccionar hacia Home!
               this._router.navigate(['']);
             }

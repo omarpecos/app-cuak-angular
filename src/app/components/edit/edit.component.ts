@@ -1,5 +1,5 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { UserService} from '../../services/user.service';
 import { Cuak, CuakService, OneCuak, EditCuak } from 'src/app/services/cuak.service';
 //import { Observable } from 'apollo-link';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import swal from 'sweetalert';
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css']
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit,DoCheck{
 
   public identity = null;
   public token = null;

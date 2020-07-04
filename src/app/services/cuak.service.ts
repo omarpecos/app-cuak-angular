@@ -14,7 +14,11 @@ export interface Cuak {
   date : string,
   lastRepliedAt : string,
   image : string,
-  author : any
+
+  author : any,
+  favorites : any,
+  isFavorited : boolean,
+  likesText : string
 }
 
 /*export interface Response {
@@ -54,9 +58,16 @@ export const AllCuaks  = gql`
               text
               image
               date
+
               author{
                 _id
                 username
+              }
+              favorites{
+                userId
+                user{
+                  username
+                }
               }
             }
         }
@@ -87,8 +98,16 @@ export const SearchCuaks =  gql`
               text
               image
               date
+
               author{
+                _id
                 username
+              }
+              favorites{
+                userId
+                user{
+                  username
+                }
               }
         }
     }
@@ -152,6 +171,39 @@ export const DeleteCuak = gql`
           _id
           username
         }
+      }
+  }
+`
+
+/* FAVORITE */
+
+  /* Mutations */
+  export const MarkAsFavorite = gql`
+    mutation markAsFavorite(
+      $cuakId : ID!
+    ){
+        markAsFavorite(
+            cuakId : $cuakId
+        ){
+            userId,
+            user{
+              username
+            }
+        }
+    }
+  `
+
+  export const UnmarkAsFavorite = gql`
+  mutation unmarkAsFavorite(
+    $cuakId : ID!
+  ){
+      unmarkAsFavorite(
+          cuakId : $cuakId
+      ){
+          userId,
+          user{
+            username
+          }
       }
   }
 `

@@ -1,5 +1,5 @@
 import { Component, OnInit, DoCheck} from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { UserService} from '../../services/user.service';
 import { Cuak ,CuakService, AllCuaks , AddCuak} from 'src/app/services/cuak.service';
 //import { Observable } from 'apollo-link';
 import { Router } from '@angular/router';
@@ -44,7 +44,10 @@ export class CreateComponent implements OnInit,DoCheck {
       _id : '99',title : '', text : '',image : '',date : '', lastRepliedAt : '', 
       author : {
         username : ''
-      }
+      },
+      favorites : {},
+      isFavorited : false,
+      likesText : 'No le gusta a nadie'
     }
 
     /* ERROR : Posible 401 al no estar logueado */

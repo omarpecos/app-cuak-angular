@@ -107,11 +107,11 @@ body , html{
 }
 .fav{
     width: 25%;
-    background-color: rgba(238, 230, 156, 0.558);
+    background: #aa446490;
 }
 .reply{
     width: 25%;
-    background: #aa446490;
+    background-color: rgba(238, 230, 156, 0.558);
 }
 .favs, .fav, .reply{
     height: 100%;
