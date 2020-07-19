@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { Cuak,SearchCuaks } from '../../services/cuak.service';
 import { Apollo } from 'apollo-angular';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-search',
@@ -44,6 +45,9 @@ export class SearchComponent implements OnInit {
   }
 
   searchCuaks(){
+    environment.lastOperation = 'Search';
+    environment.searchString = this.search;
+    
     let searchCuaksgql = SearchCuaks;
 
     this.apollo

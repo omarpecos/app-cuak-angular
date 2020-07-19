@@ -113,6 +113,10 @@ body , html{
     width: 25%;
     background-color: rgba(238, 230, 156, 0.558);
 }
+#replies{
+    padding: 10px;
+    padding-left: 20px;
+}
 .favs, .fav, .reply{
     height: 100%;
 }

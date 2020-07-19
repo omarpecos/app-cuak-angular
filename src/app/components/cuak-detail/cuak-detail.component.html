@@ -31,7 +31,7 @@
                     <img *ngIf="!cuak.image" src="https://drscdn.500px.org/photo/75964679/q%3D80_m%3D2000/v2?sig=8afbd38315427c08c0b783ca1d6d5bdb4c46d70034f158e66b4b2630b3a1e110" :alt="Default">
                 </div>
 
-                <!-- Botones de funciones (Edit/delete) -->
+                <!-- Botones de funciones (Edit/delete) (editar es == y eliminar es un poco especial pero mas o menos igual) -->
                 <p *ngIf="identity && (cuak.author._id == identity._id || identity.role == 1)">
                     <button class="btn btn-warning btn-sm" >Editar</button>
                     <button class="btn btn-danger btn-sm" >Eliminar</button>
@@ -48,13 +48,43 @@
                     {{cuak.text}}
                 </div>
             </article>
+            
+            <!-- Replies -->
+            <h4 *ngIf="identity">Respuestas</h4>
+             <div *ngIf="identity" style="background-color: indigo;">
+
+                <form class="flex-center" *ngIf="reply == 'reply'" (submit)="onSubmitReply()"  style="padding: 20px;">
+                    <textarea type="text" rows="2" name="newReply" class="form-control" [(ngModel)]="newReply"></textarea>
+                    <button [disabled]="!newReply" class="btn btn-success" style="padding: 10px 20px;border-radius: 50%;font-size: 30px;margin-left: 10px;">+</button>
+                </form>
+
+                <form class="flex-center" *ngIf="reply == 'edit'" (submit)="onSubmitEditedReply()"  style="padding: 20px;">
+                    <textarea type="text" rows="2" name="newReply" class="form-control" [(ngModel)]="newReply"></textarea>
+                    <button [disabled]="!newReply" class="btn btn-success" style="padding: 10px 20px;margin-left: 10px;">Editar</button>
+                </form>
+                
+                <div *ngIf="cuak.replies" id="replies">
+                    <div *ngFor="let reply of cuak.replies">
+                        <small *ngIf="reply.user._id == identity._id" style="float: right;">
+                            <button class="btn btn-warning btn-sm" (click)="editReply(reply)" >Editar</button>
+                            <button class="btn btn-danger btn-sm" (click)="deleteReply(reply)" >Borrar</button>
+                        </small>
+                        <small>@{{reply.user.username}}</small>
+                        <p>{{reply.text}}</p>
+                        <small style="color : grey;">{{reply.date}}</small>
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operaciones (fav,favs,res()) -->
             <div *ngIf="identity" class="flex-center info-detalle" style="background-color: indigo; text-align: center; height: 50px;">
                 <div class="favs">
                     <p>0 $</p>
                     <small>A omarpv y 2 más les gusta</small>
                 </div>
                 <div class="reply">
-                    <button class="btn btn-sm btn-info">RES()</button>
+                    <button class="btn btn-sm btn-info" (click)="seeReplyForm()">RES()</button>
                 </div>
                 <div class="fav"> 
                     <button class="btn btn-sm btn-info">FAV()</button>

@@ -17,7 +17,7 @@ const appRoutes : Routes = [
     {path : 'registro', component : RegisterComponent},
     {path : 'buscar/:search' , component : SearchComponent},
     {path : 'nuevo', component : CreateComponent},
-    {path : 'detalle/:id', component : CuakDetailComponent},
+    {path : 'detalle/:id/:action', component : CuakDetailComponent},
     {path : 'editar/:id', component : EditComponent}
 ];
 

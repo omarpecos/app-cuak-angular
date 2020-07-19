@@ -12,7 +12,7 @@
         
             <img *ngIf="cuak.image" :src="{{cuak.image}}" :alt="cuak.title" (mouseenter)="zoomImg($event.currentTarget,'enter')"  (mouseleave)="zoomImg($event.currentTarget,'leave')">
             <img *ngIf="!cuak.image" src="https://drscdn.500px.org/photo/75964679/q%3D80_m%3D2000/v2?sig=8afbd38315427c08c0b783ca1d6d5bdb4c46d70034f158e66b4b2630b3a1e110" :alt="Default">
-            <div class="title" [routerLink]="'/detalle/' + cuak._id">
+            <div class="title" [routerLink]="'/detalle/' + cuak._id + '/see'">
                 <span>@{{cuak.author.username}}</span>
                 <h5>{{cuak.title}}</h5>
             </div>
@@ -24,7 +24,7 @@
                    </p> 
                    <small>{{cuak.likesText}}</small>
                 </div>
-                <div class="reply">RES()</div>
+                <div class="reply" [routerLink]="'/detalle/' + cuak._id + '/reply'" >RES()</div>
                 <!--Favs -->
                 <div class="fav flex-center">
                     <img (load)="isMarkedAsFav(identity._id,cuak,i)" *ngIf="!cuak.isFavorited" src="https://img.icons8.com/wired/64/000000/like.png"

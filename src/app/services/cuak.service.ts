@@ -17,6 +17,7 @@ export interface Cuak {
 
   author : any,
   favorites : any,
+  replies : any,
   isFavorited : boolean,
   likesText : string
 }
@@ -69,6 +70,15 @@ export const AllCuaks  = gql`
                   username
                 }
               }
+              replies{
+                _id
+                text
+                date
+                user{
+                  _id
+                  username
+                }
+              }
             }
         }
   }
@@ -82,9 +92,19 @@ export const OneCuak = gql`
             text
             image
             date
+
             author{
               _id
               username
+            }
+            replies{
+              _id
+              text
+              date
+              user{
+                _id
+                username
+              }
             }
         }
     }
@@ -204,6 +224,65 @@ export const DeleteCuak = gql`
           user{
             username
           }
+      }
+  }
+`
+
+/* Replies */
+export const AddReply = gql`
+  mutation addReply(
+      $cuakId : ID!,
+      $text : String!
+  ){
+      addReply(
+          cuakId : $cuakId,
+          text : $text
+      ){
+            _id
+            text
+            date
+            user{
+              _id
+              username
+            }
+      }
+  }
+`
+
+export const EditReply = gql`
+  mutation editReply (
+      $replyId : ID!,
+      $text : String!
+  ){
+      editReply(
+          replyId : $replyId,
+          text : $text
+      ){
+            _id
+            text
+            date
+            user{
+              _id
+              username
+            }
+      }
+  }
+`
+
+export const DeleteReply = gql`
+  mutation deleteReply (
+      $replyId : ID!
+  ){
+      deleteReply(
+          replyId : $replyId
+      ){
+            _id
+            text
+            date
+            user{
+              _id
+              username
+            }
       }
   }
 `

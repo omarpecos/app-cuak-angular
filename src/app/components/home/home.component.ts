@@ -81,6 +81,8 @@ export class HomeComponent implements OnInit,DoCheck {
 
   getAllCuaks(paginate){
 
+    environment.lastOperation = 'AllCuaks';
+
     this.apollo
     .watchQuery({
       query: AllCuaks,

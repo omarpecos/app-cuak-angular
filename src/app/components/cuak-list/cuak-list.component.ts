@@ -1,5 +1,5 @@
 import { Component, OnInit,Input, DoCheck} from '@angular/core';
-import { Cuak,DeleteCuak, AllCuaks, MarkAsFavorite ,UnmarkAsFavorite} from '../../services/cuak.service';
+import { Cuak,DeleteCuak, AllCuaks,SearchCuaks, MarkAsFavorite ,UnmarkAsFavorite} from '../../services/cuak.service';
 import { Apollo } from 'apollo-angular';
 
 import swal from 'sweetalert';
@@ -113,6 +113,7 @@ export class CuakListComponent implements OnInit,DoCheck{
                 // igual se puede hacer un refechtQueries pero puede aparecer algun cuak repetido 
                 //si has cargado la pagina y eliminas uno de la anterior
                update : (proxy, { data : {deleteCuak}}) =>{
+                 
                   const data = proxy.readQuery({
                     query : AllCuaks,
                     variables : {
@@ -194,25 +195,44 @@ export class CuakListComponent implements OnInit,DoCheck{
         // igual se puede hacer un refechtQueries pero puede aparecer algun cuak repetido 
         //si has cargado la pagina y eliminas uno de la anterior
        update : (proxy, { data : {markAsFavorite}}) =>{
-          const data = proxy.readQuery({
-            query : AllCuaks,
-            variables : {
-              paginate : environment.lastPaginate
+         var query,variables; 
+
+         if (environment.lastOperation == 'Search'){
+            query = SearchCuaks;
+            variables = {
+              search : environment.searchString
             }
+         }else{
+           query = AllCuaks;
+           variables = {
+            paginate : environment.lastPaginate
+           }
+         }
+         
+          const data = proxy.readQuery({
+            query,
+            variables
           });
 
-          data['allCuaks']['results'].map(cuak =>{
-            if (cuak._id == cuakId){
-              cuak.favorites.push(markAsFavorite);
-              this.setLikesText( [cuak] );
-            }
-          });
+          if (environment.lastOperation == 'Search'){
+            data['searchCuaks'].map(cuak =>{
+              if (cuak._id == cuakId){
+                cuak.favorites.push(markAsFavorite);
+                this.setLikesText( [cuak] );
+              }
+            });
+          }else{
+            data['allCuaks']['results'].map(cuak =>{
+              if (cuak._id == cuakId){
+                cuak.favorites.push(markAsFavorite);
+                this.setLikesText( [cuak] );
+              }
+            });
+          }
 
           proxy.writeQuery({
-            query : AllCuaks,
-            variables : {
-              paginate : environment.lastPaginate
-            },
+            query,
+            variables,
             data : data
           });
       }
@@ -250,26 +270,47 @@ export class CuakListComponent implements OnInit,DoCheck{
       // igual se puede hacer un refechtQueries pero puede aparecer algun cuak repetido 
       //si has cargado la pagina y eliminas uno de la anterior
      update : (proxy, { data : {unmarkAsFavorite}}) =>{
-        const data = proxy.readQuery({
-          query : AllCuaks,
-          variables : {
-            paginate : environment.lastPaginate
-          }
-        });
+      var query,variables; 
 
-        data['allCuaks']['results'].map(cuak =>{
-          if (cuak._id == cuakId){
-             var auxArray =  cuak.favorites.filter(fav => fav.userId != this.identity._id);
-              ///console.log(auxArray);
-             cuak.favorites = auxArray;
-          }
+      if (environment.lastOperation == 'Search'){
+         query = SearchCuaks;
+         variables = {
+           search : environment.searchString
+         }
+      }else{
+        query = AllCuaks;
+        variables = {
+         paginate : environment.lastPaginate
+        }
+      }
+
+        const data = proxy.readQuery({
+          query,
+          variables
         });
+        if (environment.lastOperation == 'Search'){
+          data['searchCuaks'].map(cuak =>{
+            if (cuak._id == cuakId){
+               var auxArray =  cuak.favorites.filter(fav => fav.userId != this.identity._id);
+                ///console.log(auxArray);
+               cuak.favorites = auxArray;
+            }
+          });
+        }
+        else{
+          data['allCuaks']['results'].map(cuak =>{
+            if (cuak._id == cuakId){
+               var auxArray =  cuak.favorites.filter(fav => fav.userId != this.identity._id);
+                ///console.log(auxArray);
+               cuak.favorites = auxArray;
+            }
+          });
+        }
+       
 
         proxy.writeQuery({
-          query : AllCuaks,
-          variables : {
-            paginate : environment.lastPaginate
-          },
+          query,
+          variables,
           data : data
         });
     }

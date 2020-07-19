@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  lastPaginate : {}
+  lastPaginate : {},
+  lastOperation : 'AllCuaks',
+  searchString : ''
 };
 
 /*

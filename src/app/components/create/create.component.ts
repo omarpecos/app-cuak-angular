@@ -46,6 +46,7 @@ export class CreateComponent implements OnInit,DoCheck {
         username : ''
       },
       favorites : {},
+      replies : null,
       isFavorited : false,
       likesText : 'No le gusta a nadie'
     }
