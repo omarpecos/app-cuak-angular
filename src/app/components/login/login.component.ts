@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
 
             if (res.errors){
               res.errors.map(e =>{
-                console.log(e);
+                //console.log(e);
                 this.errors.push(e.message);
               });
             }else{
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     if (this.userData.username && this.userData.password){
       this.doLogin();
     }else{
-      console.log('no enviado');
+      //console.log('no enviado');
     }
   }
 

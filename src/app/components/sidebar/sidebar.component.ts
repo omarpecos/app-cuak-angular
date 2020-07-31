@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
   }
 
   onSubmitSearch(){
-      console.log(this.searchString);
+     // console.log(this.searchString);
       
       //redir to componente Search (realiza la busqueda + imprime los resultados con cuaklist)
       this._router.navigate(['/buscar',this.searchString]);

@@ -193,8 +193,8 @@ export class HomeComponent implements OnInit,DoCheck {
           return prev;
         }
 
-          //console.log(prev);
-          //console.log(subscriptionData);
+          ////console.log(prev);
+          ////console.log(subscriptionData);
         const cuakArray = prev.allCuaks.results;
         const newReply = subscriptionData.data.newReplySub;
           cuakArray.map(cuak =>{
@@ -215,7 +215,7 @@ export class HomeComponent implements OnInit,DoCheck {
                   }
             }
           });
-        console.log(newReply);
+        //console.log(newReply);
         
         return {
           ...prev
@@ -231,16 +231,16 @@ export class HomeComponent implements OnInit,DoCheck {
             query : MyConversations
           }).subscribe(res =>{
             if (res.data){
-                //console.log(res.data.myConversations);
+                ////console.log(res.data.myConversations);
                 let convers = res.data.myConversations;
                 var conversArray = [];
 
                 convers.map(conver =>{
                   const found = conver.participants.find(user => user._id == this.identity._id);
-                    //console.log(found);
+                    ////console.log(found);
                   if (found){
                       conversArray.push(conver._id);
-                    //console.log(environment);
+                    ////console.log(environment);
                   }
                 });
 

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl : 'http://localhost:4000/graphql',
-  wsApiUrl : 'ws://localhost:4000/graphql',
+  wsApiUrl : 'ws:////localhost:4000/graphql',
 
   lastPaginate : {},
   lastOperation : 'AllCuaks',

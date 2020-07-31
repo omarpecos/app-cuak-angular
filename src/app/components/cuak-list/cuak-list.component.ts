@@ -38,7 +38,7 @@ export class CuakListComponent implements OnInit,DoCheck{
     
     if (changes.token){
       if (changes.token.currentValue){
-        console.log(changes);
+        //console.log(changes);
         this.token = changes.token.currentValue;
       }
     }
@@ -140,7 +140,7 @@ export class CuakListComponent implements OnInit,DoCheck{
               res =>{
                 if (res.errors){
                   res.errors.map(e =>{
-                    console.log(e);
+                    //console.log(e);
                     swal("Error",e.message,"error");
                   });
                 }
@@ -152,7 +152,7 @@ export class CuakListComponent implements OnInit,DoCheck{
       } else {
         //nada
           //test de environment.ts
-          // console.log(environment.lastPaginate);
+          // //console.log(environment.lastPaginate);
       }
     });
   }
@@ -167,7 +167,7 @@ export class CuakListComponent implements OnInit,DoCheck{
         }
     });
 
-   // console.log(valorRetornado);
+   // //console.log(valorRetornado);
     
       this.Cuaks[index].isFavorited = valorRetornado;
   }
@@ -239,11 +239,11 @@ export class CuakListComponent implements OnInit,DoCheck{
         res =>{
           if (res.errors){
             res.errors.map(e =>{
-              console.log(e);
+              //console.log(e);
               swal("Error",e.message,"error");
             });
           }
-            //console.log(res);
+            ////console.log(res);
         });
   }
 
@@ -291,7 +291,7 @@ export class CuakListComponent implements OnInit,DoCheck{
           data['searchCuaks'].map(cuak =>{
             if (cuak._id == cuakId){
                var auxArray =  cuak.favorites.filter(fav => fav.userId != this.identity._id);
-                ///console.log(auxArray);
+                /////console.log(auxArray);
                cuak.favorites = auxArray;
             }
           });
@@ -300,7 +300,7 @@ export class CuakListComponent implements OnInit,DoCheck{
           data['allCuaks']['results'].map(cuak =>{
             if (cuak._id == cuakId){
                var auxArray =  cuak.favorites.filter(fav => fav.userId != this.identity._id);
-                ///console.log(auxArray);
+                /////console.log(auxArray);
                cuak.favorites = auxArray;
             }
           });
@@ -317,11 +317,11 @@ export class CuakListComponent implements OnInit,DoCheck{
       res =>{
         if (res.errors){
           res.errors.map(e =>{
-            console.log(e);
+            //console.log(e);
             swal("Error",e.message,"error");
           });
         }
-          //console.log(res);
+          ////console.log(res);
       }
     )
   }

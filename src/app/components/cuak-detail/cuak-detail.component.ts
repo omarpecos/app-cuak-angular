@@ -153,12 +153,12 @@ export class CuakDetailComponent implements OnInit, DoCheck {
         res =>{
           if (res.errors){
             res.errors.map(e =>{
-              console.log(e);
+              //console.log(e);
               swal("Error",e.message,"error");
             });
           }
-            console.log('doFavorite() =>');
-            console.log(res);
+            //console.log('doFavorite() =>');
+            //console.log(res);
         });
   }
 
@@ -209,12 +209,12 @@ export class CuakDetailComponent implements OnInit, DoCheck {
       res =>{
         if (res.errors){
           res.errors.map(e =>{
-            console.log(e);
+            //console.log(e);
             swal("Error",e.message,"error");
           });
         }
-        console.log('undoFavorite() =>');
-        console.log(res);
+        //console.log('undoFavorite() =>');
+        //console.log(res);
       }
     )
   }
@@ -273,7 +273,7 @@ export class CuakDetailComponent implements OnInit, DoCheck {
               res =>{
                 if (res.errors){
                   res.errors.map(e =>{
-                    console.log(e);
+                    //console.log(e);
                     swal("Error",e.message,"error");
                   });
                 }else{
@@ -288,7 +288,7 @@ export class CuakDetailComponent implements OnInit, DoCheck {
       } else {
         //nada
           //test de environment.ts
-          // console.log(environment.lastPaginate);
+          // //console.log(environment.lastPaginate);
       }
     });
   }
@@ -296,7 +296,7 @@ export class CuakDetailComponent implements OnInit, DoCheck {
   //centra verticalmente las imagenes muy altas
   centerImg(e) {
     let img = e.currentTarget as HTMLImageElement;
-    //console.log(img.height);
+    ////console.log(img.height);
 
     let mobile = false;
 
@@ -327,7 +327,7 @@ export class CuakDetailComponent implements OnInit, DoCheck {
     this.reply = 'reply';
   }
   onSubmitReply() {
-    //console.log(this.newReply);
+    ////console.log(this.newReply);
 
     //call to Apollo - addReply
     this.apollo
@@ -347,19 +347,19 @@ export class CuakDetailComponent implements OnInit, DoCheck {
         res => {
           if (res.errors) {
             res.errors.map(e => {
-              console.log(e);
+              //console.log(e);
             });
           } else {
             this.reply = null;
             this.newReply = '';
           }
-          //console.log(res);
+          ////console.log(res);
         });
 
   }
 
   onSubmitEditedReply() {
-    //console.log(this.newReply);
+    ////console.log(this.newReply);
     // edit
     this.apollo
       .mutate({
@@ -378,13 +378,13 @@ export class CuakDetailComponent implements OnInit, DoCheck {
         res => {
           if (res.errors) {
             res.errors.map(e => {
-              console.log(e);
+              //console.log(e);
             });
           } else {
             this.reply = null;
             this.newReply = '';
           }
-          //console.log(res);
+          ////console.log(res);
         });
   }
 
@@ -422,7 +422,7 @@ export class CuakDetailComponent implements OnInit, DoCheck {
               res => {
                 if (res.errors) {
                   res.errors.map(e => {
-                    console.log(e);
+                    //console.log(e);
                   });
                 }
               });

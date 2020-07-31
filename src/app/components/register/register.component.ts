@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
       //doRegister();
       this.doRegister();
     }else{
-      console.log('nada');
+      //console.log('nada');
     }
   }
 
@@ -56,11 +56,11 @@ export class RegisterComponent implements OnInit {
         res =>{
           if (res.errors){
             res.errors.map(e =>{
-              console.log(e);
+              //console.log(e);
               this.errors.push(e.message);
             });
           }else{
-              // console.log(res.data['register']);
+              // //console.log(res.data['register']);
             //redirect to Login!
             this._router.navigate(['/login']);
           }

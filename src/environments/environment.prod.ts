@@ -2,8 +2,8 @@ export const environment = {
   production: true,
 
   
-  apiUrl : 'http://localhost:4000/graphql',
-  wsApiUrl : 'ws://localhost:4000/graphql',
+  apiUrl : 'https://api-graphql-cuak.glitch.me/graphql',
+  wsApiUrl : 'wss://api-graphql-cuak.glitch.me/graphql',
 
   lastPaginate : {},
   lastOperation : 'AllCuaks',

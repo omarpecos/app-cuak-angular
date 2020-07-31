@@ -65,10 +65,10 @@ export class CreateComponent implements OnInit,DoCheck {
   getNewImgUrl(){
     this.cuakService.getNewUrlImg().subscribe(
       res =>{
-        //console.log(res);
+        ////console.log(res);
       },
       e =>{
-        //console.log(e);
+        ////console.log(e);
         //esta peticion da error -> error.url !
         this.imgUrl = e.url;
 
@@ -111,7 +111,7 @@ export class CreateComponent implements OnInit,DoCheck {
     let img = document.getElementById('createImg') as HTMLImageElement;
 
     this.file = e.target.files[0];
-      //console.log(this.file);
+      ////console.log(this.file);
     this.file0 = this.file.name;
 
     var reader = new FileReader();
@@ -130,12 +130,12 @@ export class CreateComponent implements OnInit,DoCheck {
   onSubmit(){
     //supuestamente ya viene por lo menos con title,text,typeImg
     let isImageUrl = this.typeImg == 'url' ? true : false;
-     // console.log(isImageUrl);
+     // //console.log(isImageUrl);
     let input = {
           title : this.cuak.title, text : this.cuak.text, isImageUrl : isImageUrl, imageUrl : this.imgUrl
       };
    
-      //console.log(args);
+      ////console.log(args);
     this.addCuak(input);
     
    /* {
@@ -200,7 +200,7 @@ export class CreateComponent implements OnInit,DoCheck {
            //mapea y muestra los errores
            if (res.errors) {
               res.errors.map(e => {
-                console.log(e);
+                //console.log(e);
                 swal("Error",e.message,"error");
               });
           } else {
@@ -226,7 +226,7 @@ export class CreateComponent implements OnInit,DoCheck {
               paginate : {}
             }
           });
-          console.log(allCuaks);
+          //console.log(allCuaks);
           
           //writeQuery
           this.apollo.getClient().writeFragment({

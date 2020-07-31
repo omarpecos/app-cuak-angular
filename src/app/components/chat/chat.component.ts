@@ -145,7 +145,7 @@ export class ChatComponent implements OnInit {
   }
 
   onSubmitNewMsg(){
-      console.log(this.newMsg);
+          //console.log(this.newMsg);
       // do the mutation
       this.apollo
         .mutate<any>({  
@@ -174,8 +174,8 @@ export class ChatComponent implements OnInit {
             return prev;
           }
           const msg = subscriptionData.data.newMsgSub;
-            console.log('NewMsgSub ___>>>');
-            console.log(msg);
+            //console.log('NewMsgSub ___>>>');
+            //console.log(msg);
           
           let forMe = false;
           const myConvers = environment.myConversations;
@@ -204,7 +204,7 @@ export class ChatComponent implements OnInit {
                 
                   //notifications dentro de chat.component
                     // TODO : Cuando esta fuera del chat no va creo
-                  if (!environment.dialogOpened || this.dialog._id != converId){
+                  if (!environment.dialogOpened || (this.dialog && this.dialog._id != converId) ){
                         if (conver.notifications != 0){
                           conver.notifications += 1;
                         }else{
@@ -259,7 +259,7 @@ export class ChatComponent implements OnInit {
               return prev;
             }
             const conver = subscriptionData.data.newPrivateConver;
-            console.log(conver);
+              //console.log(conver);
 
             let IsForMeToo = false;
             conver.participants.map(user =>{
@@ -292,7 +292,7 @@ export class ChatComponent implements OnInit {
 
 
   onSubmitNewPrivateConver(){
-      console.log( this.userSel);
+     // console.log( this.userSel);
 
       // do the mutation!
       this.apollo
@@ -357,7 +357,7 @@ export class ChatComponent implements OnInit {
           id : converId
         }
       }).subscribe(res =>{
-        console.log(res);
+          //console.log(res);
         if (res.data){
           this.myConversIds.push(converId);
         }

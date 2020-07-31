@@ -20,16 +20,6 @@ export class UserService{
 
 }
 
-/*export function getHeaders(token){
-  let headers = new HttpHeaders().set("Authorization", token); // adding header
- var context =  { 
-    headers: headers
- };
-console.log(context);
-
- return context;
-}*/
-
 
 
 /* Mutations de Usuario */
