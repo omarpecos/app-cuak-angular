@@ -1,10 +1,11 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { Cuak, OneCuak, AddReply, EditReply, DeleteReply } from '../../services/cuak.service';
+import { Cuak, OneCuak, AddReply, EditReply, DeleteReply , MarkAsFavorite ,UnmarkAsFavorite , DeleteCuak , AllCuaks} from '../../services/cuak.service';
 import { Apollo } from 'apollo-angular';
 
 import swal from 'sweetalert';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-cuak-detail',
@@ -27,6 +28,7 @@ export class CuakDetailComponent implements OnInit, DoCheck {
   replyId = null;
 
   constructor(
+    private _router : Router,
     private _route: ActivatedRoute,
     private apollo: Apollo,
     private userService: UserService
@@ -53,18 +55,244 @@ export class CuakDetailComponent implements OnInit, DoCheck {
           this.cuak = result.data['oneCuak'];
           this.loading = result.loading;
           this.error = result.errors;
+
+          if (this.cuak){
+            this.setLikesText(this.cuak);
+            if (this.identity){
+              this.isMarkedAsFav(this.identity._id);
+            }
+          }
         })
     });
   }
 
   ngDoCheck() {
     this.getAuthUser();
+    if (this.cuak){
+      this.setLikesText(this.cuak);
+      if (this.identity){
+        this.isMarkedAsFav(this.identity._id);
+      }
+    }
+    
   }
 
   getAuthUser() {
     this.token = this.userService.getToken();
     this.identity = this.userService.getIdentity();
   }
+
+  /* Operaciones de favoritos y demas */
+  setLikesText(cuak){
+      let numFavs = cuak.favorites.length;
+      if (numFavs == 0){
+        cuak.likesText = 'No le gusta a nadie';
+      }else if (numFavs == 1){
+        cuak.likesText = 'A '+ cuak.favorites[0].user.username +' le gusta';
+      }else{
+        let randomNum = Math.floor(Math.random() * (cuak.favorites.length - 1 ));
+        cuak.likesText = 'A '+ cuak.favorites[randomNum].user.username +' y a '+ (cuak.favorites.length - 1 ) +' más les gusta';
+      }
+  }
+
+  isMarkedAsFav(id){
+    var valorRetornado = false; 
+
+    this.cuak.favorites.map( fav =>{
+        if (fav.userId == id){
+          valorRetornado = true;
+        }
+    });
+    
+      this.cuak.isFavorited = valorRetornado;
+  }
+
+  doFavorite(cuakId){
+    
+    this.apollo
+      .mutate({
+        mutation : MarkAsFavorite,
+        variables : {
+          cuakId : cuakId
+        },
+        optimisticResponse : {
+          __typename : 'Mutation',
+          markAsFavorite : {
+            __typename : 'Favorite',
+            userId : this.identity._id,
+            user : {
+              __typename : 'User',
+              username : this.identity.username
+            }
+          }
+      },
+        // igual se puede hacer un refechtQueries pero puede aparecer algun cuak repetido 
+        //si has cargado la pagina y eliminas uno de la anterior
+       update : (proxy, { data : {markAsFavorite}}) =>{
+         var query,variables; 
+
+         query = OneCuak;
+          variables =  {
+            id: this.cuakId
+          }
+         
+          const data = proxy.readQuery<any>({
+            query,
+            variables
+          });
+
+          data.oneCuak.favorites.push(markAsFavorite);
+
+          proxy.writeQuery({
+            query,
+            variables,
+            data : data
+          });
+      }
+      }).subscribe(
+        res =>{
+          if (res.errors){
+            res.errors.map(e =>{
+              console.log(e);
+              swal("Error",e.message,"error");
+            });
+          }
+            console.log('doFavorite() =>');
+            console.log(res);
+        });
+  }
+
+  undoFavorite(cuakId){
+
+    this.apollo
+    .mutate({
+      mutation : UnmarkAsFavorite,
+      variables : {
+        cuakId : cuakId
+      },
+      optimisticResponse : {
+        __typename : 'Mutation',
+        unmarkAsFavorite : {
+          __typename : 'Favorite',
+          userId : this.identity._id,
+          user : {
+            __typename : 'User',
+            username : this.identity.username
+          }
+        }
+    },
+      // igual se puede hacer un refechtQueries pero puede aparecer algun cuak repetido 
+      //si has cargado la pagina y eliminas uno de la anterior
+     update : (proxy, { data : {unmarkAsFavorite}}) =>{
+      var query,variables; 
+
+      query = OneCuak;
+      variables = {
+        id : this.cuakId
+      };
+
+      const data = proxy.readQuery<any>({
+        query,
+        variables
+      });
+
+      var auxArray = data.oneCuak.favorites.filter(fav => fav.userId != this.identity._id);
+      data.oneCuak.favorites = auxArray;
+
+        proxy.writeQuery({
+          query,
+          variables,
+          data : data
+        });
+    }
+    }).subscribe(
+      res =>{
+        if (res.errors){
+          res.errors.map(e =>{
+            console.log(e);
+            swal("Error",e.message,"error");
+          });
+        }
+        console.log('undoFavorite() =>');
+        console.log(res);
+      }
+    )
+  }
+
+  deleteCuak(cuak : Cuak){
+    swal({
+      title: "¿Está seguro?",
+      text: "Una vez eliminado el cuak no habrá marcha atrás",
+      icon: "warning",
+      buttons: ['Cancelar','Eliminar'],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        
+        //mutation - deleteCuak
+        this.apollo
+            .mutate({
+              mutation : DeleteCuak,
+              variables : { id : cuak._id},
+              optimisticResponse : {
+                  __typename : 'Mutation',
+                  deleteCuak : {
+                    __typename : 'Cuak',
+                    _id : cuak._id,
+                    title : cuak.title,
+                    author : {
+                      __typename : 'User',
+                      _id : this.identity._id,
+                      username : this.identity.username
+                    }
+                  }
+              },
+                // igual se puede hacer un refechtQueries pero puede aparecer algun cuak repetido 
+                //si has cargado la pagina y eliminas uno de la anterior
+               update : (proxy, { data : {deleteCuak}}) =>{
+                 
+                  const data = proxy.readQuery<any>({
+                    query : AllCuaks,
+                    variables : {
+                      paginate : environment.lastPaginate
+                    }
+                  });
+                  
+                  var cuakArray = data.allCuaks.results.filter(c => c._id != cuak._id );
+                  data.allCuaks.results = cuakArray;
+
+                  proxy.writeQuery({
+                    query : AllCuaks, 
+                    variables : {
+                       paginate : environment.lastPaginate
+                    },
+                     data : data});
+               }
+            }).subscribe(
+              res =>{
+                if (res.errors){
+                  res.errors.map(e =>{
+                    console.log(e);
+                    swal("Error",e.message,"error");
+                  });
+                }else{
+                  //redirect to Home!
+                  this._router.navigate(['/']);
+                }
+              });
+
+        swal("El cuak con título '"+ cuak.title +"' se ha eliminado correctamente", {
+          icon: "success",
+        });
+      } else {
+        //nada
+          //test de environment.ts
+          // console.log(environment.lastPaginate);
+      }
+    });
+  }
+
   //centra verticalmente las imagenes muy altas
   centerImg(e) {
     let img = e.currentTarget as HTMLImageElement;
@@ -93,6 +321,8 @@ export class CuakDetailComponent implements OnInit, DoCheck {
 
   }
 
+
+  /* REPLY Operations */
   seeReplyForm() {
     this.reply = 'reply';
   }

@@ -2,6 +2,30 @@
 <!-- router-outlet -->
 <router-outlet></router-outlet>
 
+
+<span *ngIf="identity" id="chat-icon" (click)="seeNotifications()">
+  <img src="https://img.icons8.com/fluent/96/000000/chat.png"/>
+</span>
+
+<div *ngIf="notifications" id="chat-notifications" style="width: fit-content;padding: 10px; border-radius: 10px;">
+  <small *ngIf="myNotif.length == 0">No hay nuevas notificaciones</small>
+  <ul *ngIf="myNotif.length > 0" class="list-group list-group-flush">
+    <li *ngFor="let notif of myNotif" 
+        style="list-style: none;
+              text-align: center;
+              border: 1px solid plum;
+              border-radius: 10px;
+              padding: 5px;"
+        (click)="goToChat(notif.id)">
+      <small class="badge badge-pill badge-danger">{{notif.new}}</small> {{notif.title}}
+    </li>
+  </ul>
+</div>
+
+<span *ngIf="myNotif.length > 0" id="chat-red-point">
+
+</span>
+
 <footer>
   <h6>{{year}} - OmarPV</h6>
 </footer>

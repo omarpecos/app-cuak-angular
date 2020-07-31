@@ -1,11 +1,12 @@
 import { Component, OnInit,DoCheck } from '@angular/core';
-import { Apollo } from 'apollo-angular';
+import { Apollo,QueryRef } from 'apollo-angular';
 //import gql from 'graphql-tag';
 
 import { UserService } from '../../services/user.service';
-import { AllCuaks, Cuak } from '../../services/cuak.service';
+import { AllCuaks, Cuak , NewReplySub, MyConversations } from '../../services/cuak.service';
 
 import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 
 export interface pagination {
   hasPrevious : Boolean,
@@ -24,9 +25,9 @@ export class HomeComponent implements OnInit,DoCheck {
   public identity = null;
   public token = null;
 
- // cuaks$ : Observable<any>;
-
-  Cuaks: Cuak[];
+  cuakQuery : QueryRef<any>;
+  cuaks: Observable<any>;
+  Cuaks : Cuak[];
   loading = true;
   error: any;
 
@@ -38,6 +39,9 @@ export class HomeComponent implements OnInit,DoCheck {
       //private allCuaks : AllCuaks,
       private userService : UserService
     ) {
+
+      this.getAllCuaks({});
+    
   }
 
   getAuthUser(){
@@ -49,9 +53,16 @@ export class HomeComponent implements OnInit,DoCheck {
     this.getAuthUser();
   }
   ngOnInit() {
-    
+  
     this.getAuthUser();
-    this.getAllCuaks({});
+    this.getMyConversations();
+
+    if (!environment.subNewCommentRunning){
+      
+      this.subscribeToNewComments();
+      environment.subNewCommentRunning = true;
+    }
+   
      
     /* this.apollo
       .watchQuery({
@@ -83,14 +94,36 @@ export class HomeComponent implements OnInit,DoCheck {
 
     environment.lastOperation = 'AllCuaks';
 
-    this.apollo
+    this.cuakQuery = this.apollo
     .watchQuery({
       query: AllCuaks,
       variables: {
         paginate
       },
-    })
-    .valueChanges
+    });
+
+    this.cuaks = this.cuakQuery.valueChanges; // async results
+
+    this.cuaks.subscribe(
+      result => {
+        let DATA = result.data['allCuaks'];
+        if (DATA){
+          this.pagination = {
+            hasNext : DATA['hasNext'],
+            next : DATA['next'],
+            hasPrevious : DATA['hasPrevious'],
+            previous : DATA['previous']
+          }
+          //set env
+          environment.lastPaginate = paginate;
+        }
+  
+          this.Cuaks = DATA.results;
+          this.loading = result.loading;
+          this.error = result.errors;
+      });
+
+    /*.valueChanges
     .subscribe(result => {
       let DATA = result.data['allCuaks'];
       if (DATA){
@@ -107,26 +140,113 @@ export class HomeComponent implements OnInit,DoCheck {
         this.Cuaks = DATA.results;
         this.loading = result.loading;
         this.error = result.errors;
-    });
+    });*/
   }
 
   navigateToPage(type){
+    var paginate = {};
+
     if (type == 'previous'){
       this.page--;
 
       //loadCuaks
-      this.getAllCuaks({
+     /* this.getAllCuaks({
         previous : this.pagination.previous
-      });
-
+      });*/
+      paginate = {
+        previous : this.pagination.previous
+      };
     }else{
       this.page++;
 
        //loadCuaks
-       this.getAllCuaks({
+      /* this.getAllCuaks({
         next : this.pagination.next
+      });*/
+      paginate = {
+        next : this.pagination.next
+      };  
+    }
+
+    this.cuakQuery
+    .fetchMore({
+        variables : {
+          paginate : paginate
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult) { return prev; }
+          environment.lastOperation = 'AllCuaks';
+           //set env
+           environment.lastPaginate = paginate;
+          return fetchMoreResult;
+        }
       });
-     
+  }
+
+  // SUBSCRIPTIONS
+  subscribeToNewComments() {
+    
+    this.cuakQuery.subscribeToMore({
+      document: NewReplySub,
+      updateQuery: (prev, {subscriptionData}) => {
+        if (!subscriptionData.data) {
+          return prev;
+        }
+
+          //console.log(prev);
+          //console.log(subscriptionData);
+        const cuakArray = prev.allCuaks.results;
+        const newReply = subscriptionData.data.newReplySub;
+          cuakArray.map(cuak =>{
+            if (cuak._id == newReply.cuakId){
+                  if( cuak.newReplies != null ){
+                    let replies = cuak.newReplies;
+                    let num = replies.quantity;
+                    
+                      cuak.newReplies = {
+                        quantity : num + 1,
+                        last : newReply
+                      }
+                  }else{
+                    cuak.newReplies = {
+                      quantity : 1,
+                      last : newReply
+                    }
+                  }
+            }
+          });
+        console.log(newReply);
+        
+        return {
+          ...prev
+        };
+      }
+    });
+  }
+
+  getMyConversations(){
+    if (this.identity){
+        this.apollo
+          .query<any>({
+            query : MyConversations
+          }).subscribe(res =>{
+            if (res.data){
+                //console.log(res.data.myConversations);
+                let convers = res.data.myConversations;
+                var conversArray = [];
+
+                convers.map(conver =>{
+                  const found = conver.participants.find(user => user._id == this.identity._id);
+                    //console.log(found);
+                  if (found){
+                      conversArray.push(conver._id);
+                    //console.log(environment);
+                  }
+                });
+
+                environment.myConversations = conversArray;
+            }
+          })
     }
   }
 

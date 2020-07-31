@@ -12,12 +12,12 @@
         <li class="nav-item active">
           <a class="nav-link" routerLink="/" >Inicio<span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+        <li *ngIf="identity" class="nav-item">
+          <a class="nav-link" routerLink="/chat">Chat</a>
         </li>
-        <li class="nav-item">
+       <!-- <li class="nav-item">
           <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
+        </li>  -->
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <ul class="navbar-nav">

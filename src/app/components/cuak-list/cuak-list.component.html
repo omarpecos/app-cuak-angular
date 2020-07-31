@@ -16,6 +16,7 @@
                 <span>@{{cuak.author.username}}</span>
                 <h5>{{cuak.title}}</h5>
             </div>
+
             <div *ngIf="identity" class="info" style="background-color: indigo; text-align: center;">
                 <!-- Número Favs -->
                 <div class="favs flex-center" style="flex-direction: column;">
@@ -24,14 +25,17 @@
                    </p> 
                    <small>{{cuak.likesText}}</small>
                 </div>
-                <div class="reply" [routerLink]="'/detalle/' + cuak._id + '/reply'" >RES()</div>
+                <!-- Nueva reply -->
+                <div class="reply flex-center" [routerLink]="'/detalle/' + cuak._id + '/reply'" >
+                    <img style="width: 60% !important;" src="https://img.icons8.com/color/96/000000/response.png"/>
+                </div>
                 <!--Favs -->
                 <div class="fav flex-center">
                     <img (load)="isMarkedAsFav(identity._id,cuak,i)" *ngIf="!cuak.isFavorited" src="https://img.icons8.com/wired/64/000000/like.png"
-                        (click)="doFavorite(cuak._id)"
+                        (click)="doFavorite(cuak._id)" style="width: 60% !important;"
                     />
                     <img *ngIf="cuak.isFavorited" src="https://img.icons8.com/dusk/64/000000/like.png"
-                        (click)="undoFavorite(cuak._id)"
+                        (click)="undoFavorite(cuak._id)" style="width: 60% !important;"
                     />
                 </div>
             </div>
@@ -43,10 +47,17 @@
             <button class="btn btn-danger btn-sm" (click)="deleteCuak(cuak)" >Eliminar</button>
         </p>
 
-        <small class="badge badge-info">{{cuak.date}}</small>
+        <small class="badge badge-pill badge-success">{{cuak.date | amLocale:'es'| amTimeAgo | titlecase}}</small>
         
         <div class="cuak-content">
             {{cuak.text}}
+        </div>
+
+        <!-- Nuevas Respuestas ! Subscription -->
+        <div *ngIf="cuak.newReplies" class="alert alert-success">
+            <small> <span class="badge badge-pill badge-success">{{cuak.newReplies.quantity}}</span> nuevos mensajes</small>
+                <br/>
+            <b>@{{cuak.newReplies.last.user.username}} : </b>{{cuak.newReplies.last.text}}
         </div>
     </article>
 </div>

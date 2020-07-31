@@ -9,6 +9,10 @@ import { AppComponent } from './app.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 
+import {NgxAutoScrollModule} from "ngx-auto-scroll";
+import { MomentModule } from 'ngx-moment';
+import 'moment/locale/es';
+
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { appHeaderComponent } from './components/appHeader/appHeader.component';
@@ -19,6 +23,7 @@ import { SearchComponent } from './components/search/search.component';
 import { CreateComponent } from './components/create/create.component';
 import { EditComponent } from './components/edit/edit.component';
 import { CuakDetailComponent } from './components/cuak-detail/cuak-detail.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,8 @@ import { CuakDetailComponent } from './components/cuak-detail/cuak-detail.compon
     SearchComponent,
     CreateComponent,
     EditComponent,
-    CuakDetailComponent
+    CuakDetailComponent,
+    ChatComponent
 
   ],
   imports: [
@@ -40,7 +46,9 @@ import { CuakDetailComponent } from './components/cuak-detail/cuak-detail.compon
     GraphQLModule,
     HttpClientModule,
     routing,
-    FormsModule
+    FormsModule,
+    NgxAutoScrollModule,
+    MomentModule
   ],
   providers: [
     appRoutingProviders

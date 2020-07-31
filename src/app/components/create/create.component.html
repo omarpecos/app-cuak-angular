@@ -9,7 +9,7 @@
   <div class="row">
       <section  id="content" class="col-sm-12 col-lg-8">
 
-        <h2 style="text-align: center;">Crear</h2>
+        <h2 class="titulo">Crear</h2>
 
         <div class="col-sm-10" id="formLogin">
             <form #createForm="ngForm" (submit)="onSubmit()">
@@ -43,7 +43,9 @@
                     <div *ngIf="!text.valid  && text.touched"
                     class="alert alert-danger">*El contenido es obligatorio</div>
 
-                <button type="submit" class="btn btn-success" [disabled]="!createForm.valid">Crear</button>
+                <p style="margin:5px;text-align:center">
+                    <button type="submit" class="btn btn-success" [disabled]="!createForm.valid">Crear</button>
+                </p>
             </form>
     </div>
   </section>

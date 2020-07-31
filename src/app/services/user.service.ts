@@ -30,6 +30,8 @@ console.log(context);
  return context;
 }*/
 
+
+
 /* Mutations de Usuario */
 
 @Injectable({
@@ -79,4 +81,16 @@ export class UserRegister extends Mutation {
       }
   `
 }
+
+
+/* Queries de Usuarios */
+export const AllUsersForSelect = gql`
+    query allUsers{
+        allUsers{
+              _id
+              username
+              email
+        }
+    }
+`
 

@@ -5,7 +5,7 @@
 
 <div class="container flex-center">
     <div class="col-sm-10 col-lg-5" id="formRegister">
-        <h2>Registro</h2>
+        <h2 class="titulo">Registro</h2>
         <form #loginForm="ngForm" (submit)="onSubmit()">
             <label for="username">Nombre de Usuario *</label>
             <input class="form-control" type="text"  name="username" [(ngModel)]="userData.username">
@@ -16,7 +16,9 @@
             <label for="password">Confirmar contraseña *</label>
             <input class="form-control" type="password"  name="confirmPassword"  [(ngModel)]="userData.confirmPassword">
 
-            <button type="submit" class="btn btn-success">Registrarse</button>
+            <p style="margin:5px;text-align:center">
+                <button type="submit" class="btn btn-success">Registrarse</button>
+             </p>
         </form>
 
         <div *ngIf="errors.length > 0" class="alert alert-danger">

@@ -30,7 +30,6 @@ export class CuakListComponent implements OnInit,DoCheck{
 
   ngDoCheck(){
     // vuelve a cargar los textos de likes de todos 
-    // queria hacerlo sólo con uno pero no me va nosepoque :(
     this.setLikesText(this.Cuaks);
   }
 

@@ -9,6 +9,7 @@ import { SearchComponent } from './components/search/search.component';
 import { CreateComponent } from './components/create/create.component';
 import { CuakDetailComponent } from './components/cuak-detail/cuak-detail.component';
 import { EditComponent } from './components/edit/edit.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 // Array de tutas
 const appRoutes : Routes = [
@@ -18,7 +19,8 @@ const appRoutes : Routes = [
     {path : 'buscar/:search' , component : SearchComponent},
     {path : 'nuevo', component : CreateComponent},
     {path : 'detalle/:id/:action', component : CuakDetailComponent},
-    {path : 'editar/:id', component : EditComponent}
+    {path : 'editar/:id', component : EditComponent},
+    {path : 'chat', component : ChatComponent}
 ];
 
 //Exportar el modulo de rutas

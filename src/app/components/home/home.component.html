@@ -1,55 +1,78 @@
-
 <!-- Header -->
-<appHeader
-    [identity]="identity"
-></appHeader>
+<appHeader [identity]="identity"></appHeader>
 
 
-<div  class="container">
+<div class="container">
   <div class="row">
-      <section  id="content" class="col-sm-12 col-lg-8">
-          
-      <h3 style="text-align: center;" >Lista de Cuaks</h3>
+    <section id="content" class="col-sm-12 col-lg-8">
+
+      <h3 class="titulo">Lista de Cuaks</h3>
       <p *ngIf="identity" style="text-align: center;">
-        <button class="btn btn-success" routerLink="/nuevo">+ Nuevo</button> 
+        <button class="btn btn-success" routerLink="/nuevo">+ Nuevo</button>
       </p>
-      
+
       <div style="text-align: center;" *ngIf="loading">
         <h4>Loading ...</h4>
         <img src="assets/images/loading.gif" alt="Loading">
       </div>
-      
-      <div *ngIf="error">
+
+      <!--  <div *ngIf="error">
         <h4>! Algo ocurrió ! :(</h4>
         <p *ngFor="let e of error">{{e.message}}</p>
-      </div>
+      </div>  -->
 
-      <cuak-list *ngIf="Cuaks" 
-        [Cuaks]="Cuaks"
-        [identity]="identity"
-        
-        [page]="page"
-        [pagination]="pagination"
-      >
+      <cuak-list *ngIf="Cuaks" [Cuaks]="Cuaks" [identity]="identity" [page]="page" [pagination]="pagination">
 
       </cuak-list>
 
-    <!-- Pagination -->
-    <div *ngIf="pagination" id="pagination" class="flex-center">
-      <span *ngIf="pagination.hasPrevious" (click)="navigateToPage('previous')" class="navegacion nav-izq"><</span>
-      <span style="padding: 10px;">
-        {{page}}
-      </span>
-      <span *ngIf="pagination.hasNext" (click)="navigateToPage('next')"  class="navegacion nav-izq" >></span>
-    </div>
+      <!-- Pagination -->
+      <div *ngIf="pagination" id="pagination" class="flex-center">
+        <span *ngIf="pagination.hasPrevious" (click)="navigateToPage('previous')" class="navegacion nav-izq">
+          <svg  xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="64" height="64" viewBox="0 0 172 172"
+            style=" fill:#000000;transform: rotate(90deg);">
+            <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+              stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+              font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+              <path d="M0,172v-172h172v172z" fill="none"></path>
+              <g>
+                <path
+                  d="M2.65391,86c0,-46.02344 37.32266,-83.34609 83.34609,-83.34609c46.02344,0 83.34609,37.32266 83.34609,83.34609c0,46.02344 -37.32266,83.34609 -83.34609,83.34609c-46.02344,0 -83.34609,-37.32266 -83.34609,-83.34609z"
+                  fill="#dda0dd"></path>
+                <path
+                  d="M119.29141,66.28047c-10.27969,10.27969 -20.55938,20.59297 -30.87266,30.87266c-10.31328,-10.31328 -20.62656,-20.62656 -30.93984,-30.93984c-9.00313,-9.00313 -22.91094,5.00547 -13.87422,14.04219c12.63125,12.63125 25.2625,25.2625 37.89375,37.89375c3.82969,3.82969 10.17891,3.72891 13.94141,-0.06719c12.63125,-12.63125 25.2625,-25.2625 37.89375,-37.89375c8.96953,-9.03672 -5.03906,-22.94453 -14.04219,-13.90781z"
+                  fill="#ffffff"></path>
+              </g>
+            </g>
+          </svg>
+        </span>
+        <span style="padding: 10px;">
+          {{page}}
+        </span>
+        <span *ngIf="pagination.hasNext" (click)="navigateToPage('next')" class="navegacion nav-izq">
+          <svg  xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="64" height="64" viewBox="0 0 172 172"
+          style=" fill:#000000;transform: rotate(-90deg);">
+          <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+            stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+            font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+            <path d="M0,172v-172h172v172z" fill="none"></path>
+            <g>
+              <path
+                d="M2.65391,86c0,-46.02344 37.32266,-83.34609 83.34609,-83.34609c46.02344,0 83.34609,37.32266 83.34609,83.34609c0,46.02344 -37.32266,83.34609 -83.34609,83.34609c-46.02344,0 -83.34609,-37.32266 -83.34609,-83.34609z"
+                fill="#dda0dd"></path>
+              <path
+                d="M119.29141,66.28047c-10.27969,10.27969 -20.55938,20.59297 -30.87266,30.87266c-10.31328,-10.31328 -20.62656,-20.62656 -30.93984,-30.93984c-9.00313,-9.00313 -22.91094,5.00547 -13.87422,14.04219c12.63125,12.63125 25.2625,25.2625 37.89375,37.89375c3.82969,3.82969 10.17891,3.72891 13.94141,-0.06719c12.63125,-12.63125 25.2625,-25.2625 37.89375,-37.89375c8.96953,-9.03672 -5.03906,-22.94453 -14.04219,-13.90781z"
+                fill="#ffffff"></path>
+            </g>
+          </g>
+        </svg>
+        </span>
+      </div>
 
-  </section>
+    </section>
 
-  <!-- Sidebar -->
-  <app-sidebar class="col-sm-12 col-lg-4"
-    [identity]="identity"
-  >
-  </app-sidebar>
+    <!-- Sidebar -->
+    <app-sidebar class="col-sm-12 col-lg-4" [identity]="identity">
+    </app-sidebar>
 
- </div>
+  </div>
 </div>

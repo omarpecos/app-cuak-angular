@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Query, Mutation } from 'apollo-angular';
+//import { Query, Mutation ,Subscription } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 
@@ -19,7 +19,18 @@ export interface Cuak {
   favorites : any,
   replies : any,
   isFavorited : boolean,
-  likesText : string
+  likesText : string,
+  newReplies : any
+}
+
+export interface Conversation {
+  _id : string,
+  title : string,
+  type : string,
+  participants : any,
+  messages : any,
+  
+  notifications : any
 }
 
 /*export interface Response {
@@ -96,6 +107,12 @@ export const OneCuak = gql`
             author{
               _id
               username
+            }
+            favorites{
+              userId
+              user{
+                username
+              }
             }
             replies{
               _id
@@ -285,4 +302,178 @@ export const DeleteReply = gql`
             }
       }
   }
+`
+
+/* Conversations */
+export const AllConversations = gql`
+  query allConversations{
+      allConversations{
+          _id
+          title
+          type
+          notifications
+          
+          participants{
+            _id
+            username
+          }
+          messages{
+            _id
+            text
+            date 
+            converId
+
+            sender{
+              _id
+              username
+            }
+          }
+    }
+  }
+`
+
+export const MyConversations = gql`
+    query myConversations{
+        myConversations{
+            _id
+            title
+            type
+
+            participants{
+              _id
+              username
+            }
+        }
+    }
+`
+
+export const AddPrivateConversation = gql`
+    mutation addPrivateConversation(
+        $userIds : [String]! 
+    ){
+        addPrivateConversation(
+            userIds : $userIds
+        ){
+              _id
+              title
+              type
+
+              participants{
+                _id
+                username
+              }
+        }
+    }
+`
+
+export const JoinConversation = gql`
+    mutation joinConversation(
+      $id : ID!
+    ){
+        joinConversation(
+           id : $id
+        ){
+              _id
+              title
+              type
+              notifications
+              
+              participants{
+                _id
+                username
+              }
+              messages{
+                _id
+                text
+                date 
+                converId
+
+                sender{
+                  _id
+                  username
+                }
+              }
+        }
+    }
+`
+
+/* Messages */
+export const NewMsg = gql`
+    mutation newMsg(
+      $text : String!
+      $converId : ID!
+    ){
+       newMsg(
+          text : $text
+          converId : $converId
+       ){
+              _id
+              text
+              date 
+
+              sender{
+                _id
+                username
+              }
+       }
+    }
+`
+
+/* Subscriptions */
+
+export const NewReplySub = gql`
+    subscription newReplySub {
+      newReplySub {
+        _id
+        text
+        cuakId
+
+        user{
+          _id
+          username
+        }
+      }
+    }
+  `
+
+export const NewMsgSub = gql`
+    subscription newMsgSub{
+        newMsgSub{
+            _id
+            text
+            date
+            converId
+
+            sender{
+              _id
+              username
+            }
+        }
+    }
+`
+
+export const NewPrivateConverSub = gql`
+    subscription newPrivateConver{
+        newPrivateConver{
+              _id
+              title
+              type
+              notifications
+              
+              participants{
+                _id
+                username
+              }
+              messages{
+                text
+                date 
+                converId
+
+                sender{
+                  _id
+                  username
+                }
+              }
+        }
+    }
 `

@@ -1,0 +1,92 @@
+<!-- Header -->
+<appHeader
+    [identity]="identity"
+></appHeader>
+
+<div  class="container">
+    <div style="text-align: center;" *ngIf="loading">
+        <h4 >Loading ...</h4>
+        <img src="assets/images/loading.gif" alt="Loading">
+      </div>
+      
+    <div class="row"  *ngIf="!loading">
+        <div  id="chat-list" class="col-sm-12 col-lg-4">
+            
+            <h3  class="titulo">Chats grupo</h3>
+            <div *ngFor="let conver of ConversGroup" class="btn btn-info" (click)="seeChat(conver)"
+                style="width: 60% !important;min-width: fit-content; margin-bottom: 2px;">
+                        <small *ngIf="conver.notifications > 0"> <span class="badge badge-pill badge-danger">{{conver.notifications}}</span> nuevos mensajes</small>
+                        <br *ngIf="conver.notifications > 0" /> 
+                         {{conver.title}} &nbsp;
+                         <img width="30" *ngIf="!isMyConver(conver._id)" src="https://img.icons8.com/color/48/000000/joyent--v1.png" (click)="joinConversation(conver._id)"/>
+            </div>
+
+            <h3  class="titulo">Chats privados</h3>
+            <p style="text-align: center;">
+                <button (click)="displayFormForNewPrivateConver()" class="btn btn-success" >Iniciar chat privado</button>
+            </p>
+            <div *ngFor="let conver of ConversPrivate">
+                <div *ngIf="isPrivateConverMine(conver._id)" class="btn btn-info" (click)="seeChat(conver)"
+                    style="width: 60% !important;min-width: fit-content;margin-bottom: 2px;">
+                        <small *ngIf="conver.notifications > 0"> <span class="badge badge-pill badge-danger">{{conver.notifications}}</span> nuevos mensajes</small>
+                        <br *ngIf="conver.notifications > 0" /> 
+                        {{conver.title}}
+                </div>
+            </div>
+
+        </div>
+    
+        <div id="chat-display" class="col-sm-12 col-lg-8">
+            <h3 *ngIf="dialog" class="titulo">{{dialog.title}}</h3>
+            <small *ngIf="dialog">
+                <b class="badge badge-info">Miembros</b>&nbsp;
+                <b *ngFor="let user of dialog.participants" class="badge badge-pill badge-success">
+                    @{{user.username}}
+                </b>
+            </small>
+
+            <ul ngx-auto-scroll *ngIf="dialog" id="messages"  class="list-group list-group-flush">
+                <li *ngFor="let msg of dialog.messages"  class="list-group-item" style="background : #6A87BB; padding: 0.05rem 1rem; min-height: fit-content; margin: 2.5px 0; border : 0">
+                    <span (click)="displayFullDate(msg._id)" class="alert" [ngClass]="{
+                        'alert-warning float-left' : msg.sender._id != identity._id,
+                        'alert-success float-right' : msg.sender._id == identity._id
+                    }" style="margin-bottom : 0 ;">
+                        <b>@{{msg.sender.username}} :</b>  {{msg.text}} 
+                        <small style="font-size: xx-small;position: relative;top: 5px;left: 2px;">{{msg.date | date :'HH:mm'}}</small>
+                    </span>
+                    <!-- FullDateDisplay -->
+                    <br *ngIf="fullDate == msg._id" />
+                    <small *ngIf="fullDate == msg._id"  style="color: black;background: white;border-radius: 10px;padding: 5px;margin: 0 5px;">
+                        {{msg.date | amLocale:'es' | amCalendar | titlecase}}
+                    </small>
+                </li>
+            </ul>
+
+            <form *ngIf="dialog" class="flex-center" (submit)="onSubmitNewMsg()"  style="padding: 20px;">
+                <textarea (keypress)="keyPress($event)" type="text" rows="2" name="newMsg" class="form-control" [(ngModel)]="newMsg"></textarea>
+                <button [disabled]="!newMsg" class="btn btn-success" style="padding: 10px 20px;border-radius: 50%;font-size: 30px;margin-left: 10px;">+</button>
+            </form>
+        </div>
+
+        <!-- Iniciar nuevas conversaciones privadas -->
+        <div *ngIf="newPrivateForm" style="width: fit-content;padding: 20px;margin: 10px auto; background: #812671;">
+            <h4 class="titulo">Iniciar conversación privada</h4>
+
+            <div style="text-align: center;" *ngIf="!Users">
+                <h4 >Loading ...</h4>
+                <img src="assets/images/loading.gif" alt="Loading">
+            </div>
+
+            <form (submit)="onSubmitNewPrivateConver()">
+                <select *ngIf="Users" class="form-control" name="userSel" [(ngModel)]="userSel">
+                    <option value="0">Seleccione</option>
+                    <option *ngFor="let user of Users" [value]="user._id">@{{user.username}} - {{user.email}}</option>
+                </select>
+                <p style="text-align: center;">
+                    <button class="btn btn-success" [disabled]="userSel == '0'" type="submit">Iniciar</button>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+</div>

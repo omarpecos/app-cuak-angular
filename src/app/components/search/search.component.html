@@ -3,18 +3,13 @@
     [identity]="identity"
 ></appHeader>
 
-
-<h2 style="text-align: center;">Búsqueda</h2>
-<h3 style="text-align: center;color: grey">{{search}}</h3>
-
-
-
 <div  class="container">
   <div class="row">
       <section  id="content" class="col-sm-12 col-lg-8">
 
       <small style="text-align: center;color: grey" *ngIf="Cuaks">Núm : {{Cuaks.length}}</small>
-      <h3 style="text-align: center;" >Resultados</h3>
+      <h2 class="titulo">Búsqueda</h2>
+      <h3 style="text-align: center;color: grey; padding: 10px;position: relative;top: -25px;">{{search}}</h3>
 
       <div style="text-align: center;" *ngIf="loading">
         <h4>Loading ...</h4>

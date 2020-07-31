@@ -70,7 +70,7 @@ body , html{
     position: absolute;
     bottom : 0;
 
-    animation: linear 2s animGiro;
+    animation: linear 1s animGiro;
 }
 
 @keyframes animGiro{
@@ -87,6 +87,7 @@ body , html{
 .info{
     width: 100%;
     height: 20%;
+    min-height: 55px;
     position: absolute;
     top: 0;
     right: 0;
@@ -189,10 +190,10 @@ footer{
 }
 
 .navegacion{
-    padding: 10px 15px;
-    border-radius: 50%;
-    background: plum;
     cursor: pointer;
+}
+.navegacion svg{
+    width: 50px;
 }
 
 #buscador{
@@ -218,13 +219,136 @@ footer{
     height: 100% !important;
 }
 
+.titulo{
+    color : white;
+    text-align: center;
+    padding: 20px;
+    text-shadow: #aa7224 1px 0px 10px;
+
+    animation: ease-in 1s entradaTitulos;
+    transition: transform 0.5s;
+}
+
+@keyframes entradaTitulos{
+    0% {
+        opacity: 0;
+        transform: translateX(-400px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* pagina de chat */
+#chat-display{
+    background: #6A87BB;
+     min-height: fit-content;
+}
+#messages{
+    max-height: 310px;
+    overflow-y: auto;
+}
+
+#chat-list{
+    padding : 5px;
+    background: #812671;
+     height: fit-content;
+     text-align: center;
+}
+
+/* Scrollbar custom CSS */
+        #messages::-webkit-scrollbar { 
+        /* display: none; */
+        width: 8px;     /* Tamaño del scroll en vertical */
+        height: 8px;    /* Tamaño del scroll en horizontal */
+        } 
+        /* Ponemos un color de fondo y redondeamos las esquinas del thumb */
+        #messages::-webkit-scrollbar-thumb {
+            background: rgb(152, 152, 152);
+            border-radius: 4px;
+        }
+        /* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
+        #messages::-webkit-scrollbar-thumb:hover {
+            background: #626161;
+            box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+        }
+        /* Cambiamos el fondo cuando esté en active */
+        #messages::-webkit-scrollbar-thumb:active {
+            background-color: #999999;
+        }
+        /* Ponemos un color de fondo y redondeamos las esquinas del track */
+        #messages::-webkit-scrollbar-track {
+            background: #e1e1e1;
+            border-radius: 4px;
+        }
+        /* Cambiamos el fondo cuando esté en active o hover */
+        #messages::-webkit-scrollbar-track:hover,
+        #messages::-webkit-scrollbar-track:active {
+        background: #d4d4d4;
+        }
+
+/* Notifications */
+
+#chat-icon{
+    z-index : 1;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+
+    width: fit-content;
+}
+
+#chat-icon img{
+    width: 50px;
+}
+
+#chat-notifications{
+    z-index : 2;
+    background: #6A87BB;
+    border : 1px solid white;
+    color: white;
+    position: fixed;
+    right: 80px;
+    bottom: 19px;
+}
+
+#chat-red-point{
+    width: 20px;
+    height: 20px;
+    
+    border-radius: 50%;
+    background: red;
+
+    z-index : 3;
+    position : fixed;
+    right: 23px;
+    bottom: 50px;
+}
+
 /* -- Medias Queries -- */
 
 @media(min-width : 576px){
     /*.cuak-content{
         margin-top: 30%;
     }*/
-   
+
+    #chat-icon img{
+        width: inherit;
+    }
+
+    #chat-red-point{
+        width: 30px;
+        height: 30px;
+
+        right: 35px;
+        bottom: 75px;
+    }
+
+    #chat-notifications{
+        right: 115px;
+        bottom: 32px;
+    }
 }
 
 
@@ -234,7 +358,7 @@ footer{
     }
 
     .img-wrap {/*mxheighttocado*/
-        height: 450px;
+        min-height: fit-content;
         max-height: 450px;
         width: 100%;
     }

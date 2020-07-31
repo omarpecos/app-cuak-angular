@@ -9,7 +9,7 @@
   <div class="row">
       <section  id="content" class="col-sm-12 col-lg-8">
 
-        <h2 style="text-align: center;">Editar</h2>
+        <h2 class="titulo" >Editar</h2>
         <p  *ngIf="!cuak" style="text-align: center;">
             <img  src="assets/images/loading.gif" style="margin:5px auto;" alt="Loading">
         </p>
@@ -48,7 +48,9 @@
                     <div *ngIf="!text.valid  && text.touched"
                     class="alert alert-danger">*El contenido es obligatorio</div>
 
-                <button type="submit" class="btn btn-success" [disabled]="!createForm.valid">Editar</button>
+                <p style="margin:5px;text-align:center">
+                     <button type="submit" class="btn btn-success" [disabled]="!createForm.valid">Editar</button>
+                </p>
             </form>
     </div>
   </section>

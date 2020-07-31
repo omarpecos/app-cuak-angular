@@ -48,7 +48,8 @@ export class CreateComponent implements OnInit,DoCheck {
       favorites : {},
       replies : null,
       isFavorited : false,
-      likesText : 'No le gusta a nadie'
+      likesText : 'No le gusta a nadie',
+      newReplies : null
     }
 
     /* ERROR : Posible 401 al no estar logueado */
