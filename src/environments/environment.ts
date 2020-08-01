@@ -18,6 +18,12 @@ export const environment = {
 };
 
 /*
+  LOCAL 
+
+   apiUrl : 'http://localhost:4000/graphql',
+  wsApiUrl : 'ws:////localhost:4000/graphql',
+
+
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  *
