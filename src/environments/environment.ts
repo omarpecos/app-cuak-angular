@@ -9,6 +9,7 @@ export const environment = {
 
   lastPaginate : {},
   lastOperation : 'AllCuaks',
+  viewingPage : 1,
   searchString : '',
   myConversations : [],
   myNotifications : [],

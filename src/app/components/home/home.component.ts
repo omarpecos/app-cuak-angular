@@ -56,38 +56,13 @@ export class HomeComponent implements OnInit,DoCheck {
   
     this.getAuthUser();
     this.getMyConversations();
-
+    
     if (!environment.subNewCommentRunning){
       
       this.subscribeToNewComments();
       environment.subNewCommentRunning = true;
     }
    
-     
-    /* this.apollo
-      .watchQuery({
-        query: gql`
-          {
-              allCuaks {
-                _id
-                title
-                text
-                image
-                date
-                author{
-                  username
-                }
-              }
-          }
-          `,
-      })
-      .valueChanges.subscribe(result => {
-        let data = result.data;
-        this.allCuaks = data['allCuaks'];
-
-        this.loading = result.loading;
-        this.error = result.errors;
-      }); */
   }
 
   getAllCuaks(paginate){
@@ -101,6 +76,8 @@ export class HomeComponent implements OnInit,DoCheck {
         paginate
       },
     });
+
+    this.page = environment.viewingPage;
 
     this.cuaks = this.cuakQuery.valueChanges; // async results
 
@@ -123,24 +100,6 @@ export class HomeComponent implements OnInit,DoCheck {
           this.error = result.errors;
       });
 
-    /*.valueChanges
-    .subscribe(result => {
-      let DATA = result.data['allCuaks'];
-      if (DATA){
-        this.pagination = {
-          hasNext : DATA['hasNext'],
-          next : DATA['next'],
-          hasPrevious : DATA['hasPrevious'],
-          previous : DATA['previous']
-        }
-        //set env
-        environment.lastPaginate = paginate;
-      }
-
-        this.Cuaks = DATA.results;
-        this.loading = result.loading;
-        this.error = result.errors;
-    });*/
   }
 
   navigateToPage(type){
@@ -149,29 +108,26 @@ export class HomeComponent implements OnInit,DoCheck {
     if (type == 'previous'){
       this.page--;
 
-      //loadCuaks
-     /* this.getAllCuaks({
-        previous : this.pagination.previous
-      });*/
       paginate = {
         previous : this.pagination.previous
       };
+
     }else{
       this.page++;
 
-       //loadCuaks
-      /* this.getAllCuaks({
-        next : this.pagination.next
-      });*/
       paginate = {
         next : this.pagination.next
       };  
     }
 
-    this.cuakQuery
-    .fetchMore({
+   //OLD WAY but works and return always to first page data! :D 
+   // this.getAllCuaks(paginate);
+
+    environment.viewingPage = this.page;
+  
+    this.cuakQuery.fetchMore({
         variables : {
-          paginate : paginate
+          paginate
         },
         updateQuery: (prev, { fetchMoreResult }) => {
           if (!fetchMoreResult) { return prev; }
@@ -181,6 +137,7 @@ export class HomeComponent implements OnInit,DoCheck {
           return fetchMoreResult;
         }
       });
+
   }
 
   // SUBSCRIPTIONS
