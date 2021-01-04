@@ -20,7 +20,7 @@ App Cuak - Angular
 
 ## Description
 
-This project is a **Angular App** developed to consume [API Cuak](https://github.com/Omar-Pecos/api-graphql-cuak-prod) and use all characteristics of GraphQL APIs **(queries,mutations and subscriptions)**.The API has **authorization** and **authentication** with **JWT** (Json Web Tokens) implemented.
+This project is an **Angular App** developed to consume [API Cuak](https://github.com/Omar-Pecos/api-graphql-cuak-prod) and use all characteristics of GraphQL APIs **(queries,mutations and subscriptions)**.The API has **authorization** and **authentication** with **JWT** (Json Web Tokens) implemented.
 
 It uses **apollo-angular** module to perform queries and mutations,and to set listeners for subscriptions and **sweetalert** for displaying some CRUD notifications.
 
@@ -70,15 +70,13 @@ Url of the app deployed
 ---
 > [App Cuak](https://omarpecos.com/cuakapp/)
 
-Maybe you have to wait a bit to the API to come online because it is using [Glitch](https://glitch.com/) free service and the projects are 'asleep' until they get a request.
+Maybe you have to wait a bit to the API to come online because it is using [Repl.it](https://repl.it/) free service and the projects are 'asleep' until they get a request.
 
-From the app you can try to log in with this data : 
-*(Sometimes trying to log in makes the API come online faster)*
+You can try to register as a new user or log in with this data : 
+
 >>User : **user**
+
 >>Password : **user**
-
-If that did not work you can try to navigate to the [API root url](https://api-graphql-cuak.glitch.me) or [API grahQL playground](https://api-graphql-cuak.glitch.me/graphql) and when they load the API is online.
-
 
 
 

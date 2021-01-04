@@ -24,6 +24,17 @@ export const environment = {
    apiUrl : 'http://localhost:4000/graphql',
   wsApiUrl : 'ws:////localhost:4000/graphql',
 
+  
+ GLITCH (Not online now)
+
+  apiUrl : 'https://api-graphql-cuak.glitch.me/graphql',
+  wsApiUrl : 'wss://api-graphql-cuak.glitch.me/graphql',
+
+  REPLIT
+  
+  apiUrl : 'https://api-graphql-cuak-prod.omarpv.repl.co/graphql',
+  wsApiUrl : 'wss://api-graphql-cuak-prod.omarpv.repl.co/graphql',
+
 
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

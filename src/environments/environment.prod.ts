@@ -2,8 +2,8 @@ export const environment = {
   production: true,
 
   
-  apiUrl : 'https://api-graphql-cuak.glitch.me/graphql',
-  wsApiUrl : 'wss://api-graphql-cuak.glitch.me/graphql',
+  apiUrl : 'https://api-graphql-cuak-prod.omarpv.repl.co/graphql',
+  wsApiUrl : 'wss://api-graphql-cuak-prod.omarpv.repl.co/graphql',
 
   lastPaginate : {},
   lastOperation : 'AllCuaks',
